@@ -1,0 +1,132 @@
+<div class="principal">
+  <div class="ContainerEsquerdo" [ngClass]="{ 'hidden': !isLeftContainerVisible }">
+
+    <!-- Conteúdo do Container Esquerdo -->
+     <div class="titulo"> 
+      <h1 class="nomeHospital"> Miracle's Hospital </h1>
+      <!--p class="descricaoHospital"> Saving lives according to poeple's faith!</p-->
+     </div>
+
+     <div class="Menu_navegacaoEquerdo">
+
+      <!-- Aqui terei o codigo referente aos botoes que permitem a navegacao no sistema -->
+
+     
+        <button mat-button class="panel-margin  btn" routerLink="/InicioAdmin/Home">
+          <mat-icon>home</mat-icon> Home
+        </button>
+        <button mat-button class="panel-margin btn">
+          <mat-icon>calendar_today</mat-icon> Calendário de Agenda
+        </button>
+        <button mat-button class="panel-margin btn">
+          <mat-icon>attach_money</mat-icon> Caixa
+        </button>
+        <button mat-button class="panel-margin btn">
+          <mat-icon>search</mat-icon> Consultas
+        </button>
+         <button mat-button class="panel-margin btn">
+          <mat-icon>healing</mat-icon> Tratamentos
+        </button>
+     
+
+      <mat-expansion-panel class="panel-margin">
+        <mat-expansion-panel-header>
+          <mat-panel-title style="padding-left: 5px; display: flex; gap: 5px;">
+            <mat-icon>people</mat-icon> Pessoas
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <button mat-button routerLink="/InicioAdmin/Funcionario" class="matPanelButtons">
+            <mat-icon>person</mat-icon> Funcionário
+          </button>
+          <button mat-button routerLink="/InicioAdmin/Medico" class="matPanelButtons">
+            <mat-icon>local_hospital</mat-icon> Médico
+          </button>
+          <button mat-button class="matPanelButtons">
+            <mat-icon>people_outline</mat-icon> Paciente
+          </button>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="panel-margin">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>add</mat-icon> Cadastro
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <button mat-button routerLink="/InicioAdmin/Departamento" class="matPanelButtons">
+            <mat-icon>business</mat-icon> Departamento
+          </button>
+          <button mat-button routerLink="/InicioAdmin/Especialidade" class="matPanelButtons">
+            <mat-icon>star</mat-icon> Especialidade
+          </button>
+          <button mat-button class="matPanelButtons">
+            <mat-icon>medication</mat-icon> Equipamento Médico
+          </button>
+          <button mat-button class="matPanelButtons" routerLink="/InicioAdmin/Fornecedor">
+            <mat-icon>local_offer</mat-icon> Fornecedor
+          </button>
+          <button mat-button class="matPanelButtons">
+            <mat-icon>local_pharmacy</mat-icon> Medicamento
+          </button>
+          <button mat-button class="matPanelButtons" routerLink="/InicioAdmin/Leito">
+            <mat-icon>hotel</mat-icon> Leito
+          </button>
+          <button mat-button class="matPanelButtons" routerLink="/InicioAdmin/Cama">
+            <mat-icon>bed</mat-icon> Cama
+          </button>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel class="panel-margin">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon>schedule</mat-icon> Agendamentos
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <button mat-button class="matPanelButtons">
+            <mat-icon>event</mat-icon> Agendamentos
+          </button>
+          <button mat-button class="matPanelButtons">
+            <mat-icon>description</mat-icon> Relatório
+          </button>
+        </div>
+      </mat-expansion-panel>
+     </div>
+
+  </div>
+
+  <div class="ContainerDireito" [ngClass]="{ 'expanded': !isLeftContainerVisible }">
+
+     <div class="navBar">
+      <mat-toolbar >
+        <button mat-icon-button (click)="toggleLeftContainer()" class="example-icon" aria-label="Toggle left container">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <!-- <span>Menu </span> -->
+        <span class="example-spacer"></span>
+
+       <div class="div">
+              
+          <button mat-icon-button class="example-icon" aria-label="Share">
+            <mat-icon>share</mat-icon>
+          </button>
+          
+          <button mat-icon-button class="example-icon logout-icon" aria-label="logout" routerLink="/Login">
+            <mat-icon>logout</mat-icon>
+          </button>
+       </div>
+     
+  
+      </mat-toolbar>
+     </div>
+
+    <!-- Conteúdo do Container Direito -->
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+ 
+

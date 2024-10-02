@@ -1,0 +1,35 @@
+<div class="main">
+
+  <h1>Leito</h1>
+  <form class="formulario" [formGroup] = "leitoForm" (ngSubmit) = "submit()">
+ 
+        
+      <mat-form-field class="input">
+          <mat-label> Descricao</mat-label>
+          <input matInput placeholder="Ex.Terceiro corredor quinta porta" formControlName = "descricao" required>
+        </mat-form-field>
+     
+        <div class="divbtn">
+
+          <button mat-button  class="btn" type="button" (click)="Close()">
+              
+              <mat-icon class="icon">close</mat-icon>
+              <span>Exit</span>
+            </button>
+
+          <button mat-button class="btn" type="submit">
+
+            <ng-container *ngIf="typeButton === 'Save'">
+              <mat-icon  class="icon">save</mat-icon> 
+            </ng-container>
+              <ng-container *ngIf="typeButton === 'Add'">
+              <mat-icon  class="icon">add</mat-icon> 
+            </ng-container>
+              <span>{{ typeButton }}</span>
+
+            </button>
+
+           
+        </div>
+    </form>
+</div>

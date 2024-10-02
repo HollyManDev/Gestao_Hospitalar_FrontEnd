@@ -1,0 +1,56 @@
+.main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+}
+
+.formulario{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.input{
+    margin: 0.5rem;
+    width: 300px;
+}
+h1{
+    text-align: center;
+    color: white;
+    padding: 0.5rem;
+}
+.btn{
+    background-color: white;
+}
+.divbtn{
+
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+   
+}
+.icon{
+    color: #212121;
+}
+span{
+    width: 100%;
+   display: none;
+}
+.btn:hover{
+    background-color: #212121;
+    color: white;
+    transition: 1s all  ease-in-out;
+    text-align: center;
+    
+    .icon{
+        display: none;
+        
+    }
+    span{
+        display: flex;
+    }  
+}

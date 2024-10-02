@@ -1,0 +1,42 @@
+<div class="main">
+    <h1>Fornecedores</h1>
+    <form class="formulario" [formGroup]="fornecedorForm" (ngSubmit)="submit()">
+        <mat-form-field class="input">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Ex. Nome do Fornecedor" formControlName="nome" required>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+            <mat-label>Nuit</mat-label>
+            <input matInput placeholder="Ex. 229067811" formControlName="nuit" required>
+        </mat-form-field>
+        
+        <mat-form-field class="input">
+            <mat-label>Telefone</mat-label>
+            <input matInput placeholder="Ex. (+258) 833475907" formControlName="telefone" required>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Ex. fornecedor@exemplo.com" formControlName="email" required>
+        </mat-form-field>
+
+        <div class="divbtn">
+            <button mat-button class="btn" type="button" (click)="Close()">
+                <mat-icon class="icon">close</mat-icon>
+                <span>Sair</span>
+            </button>
+
+            <button mat-button class="btn" type="submit">
+                <ng-container *ngIf="typeButton === 'Save'">
+                    <mat-icon class="icon">save</mat-icon> 
+                </ng-container>
+                <ng-container *ngIf="typeButton === 'Add'">
+                    <mat-icon class="icon">add</mat-icon> 
+                </ng-container>
+                <span>{{ typeButton }}</span>
+            </button>
+        </div>
+    </form>
+</div>
+

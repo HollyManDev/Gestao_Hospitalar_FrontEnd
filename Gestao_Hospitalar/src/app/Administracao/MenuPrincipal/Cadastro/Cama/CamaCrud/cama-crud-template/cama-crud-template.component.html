@@ -1,0 +1,44 @@
+<div class="main">
+
+    <h1>Camas</h1>
+    <form class="formulario" [formGroup] = "camaForm" (ngSubmit) = "submit()">
+
+        <mat-form-field class="input">
+            <mat-label> Descricao</mat-label>
+            <input matInput placeholder="Ex. Cama Numero 3 tipo 2" formControlName = "descricao" required>
+          </mat-form-field>
+
+          <mat-form-field class="input">
+            <mat-label>Leito</mat-label>
+            <mat-select formControlName="leito" required>
+              <mat-option *ngFor="let leito of leitos" [value]="leito.descricao" (click) = "getLeitoId(leito)">
+                {{leito.descricao }}
+        
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+       
+          <div class="divbtn">
+
+            <button mat-button  class="btn" type="button" (click)="Close()">
+                
+                <mat-icon class="icon">close</mat-icon>
+                <span>Exit</span>
+              </button>
+
+            <button mat-button class="btn" type="submit">
+
+              <ng-container *ngIf="typeButton === 'Save'">
+                <mat-icon  class="icon">save</mat-icon> 
+              </ng-container>
+                <ng-container *ngIf="typeButton === 'Add'">
+                <mat-icon  class="icon">add</mat-icon> 
+              </ng-container>
+                <span>{{ typeButton }}</span>
+
+              </button>
+
+             
+          </div>
+      </form>
+</div>
