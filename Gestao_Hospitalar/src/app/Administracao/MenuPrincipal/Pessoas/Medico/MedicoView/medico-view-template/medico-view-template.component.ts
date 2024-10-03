@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Medico } from 'src/app/Models/Medico';
 import { MedicoCrudTemplateComponent } from '../../MedicoCrud/medico-crud-template/medico-crud-template.component';
 import { UserServiceService } from 'src/app/Service/user-service.service';
+import { Especialidade } from 'src/app/Models/Especialidade';
 
 @Component({
   selector: 'app-medico-view-template',
@@ -15,9 +16,10 @@ import { UserServiceService } from 'src/app/Service/user-service.service';
 })
 export class MedicoViewTemplateComponent implements OnInit {
   medicos: Medico[] = [];
+  especialidades: Especialidade[]=[];
   dataSource: MatTableDataSource<Medico> = new MatTableDataSource<Medico>([]);
 
-  displayedColumns: string[] = ['Id', 'Nome', 'Especialidade', 'Telefone',  'Email', 'Horario_Trabalho', 'Status', 'Edit', 'Remove'];
+  displayedColumns: string[] = ['Id', 'Nome', 'Especialidade', 'Telefone',  'Email', 'Endereco', 'Horario_Trabalho', 'Status', 'Edit', 'Remove'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -36,15 +38,30 @@ export class MedicoViewTemplateComponent implements OnInit {
     this.userService.GetMedicos().subscribe(userData => {
       if (userData.data) {
         this.medicos = userData.data;
+        this.getEspecialidades();
         this.updateMedicoList();
       }
     });
   }
 
+  getEspecialidades(): void {
+    this.userService.GetEspecialidades().subscribe(userData => {
+      if (userData.data) {
+        this.especialidades = userData.data;
+      }
+    });
+  }
+
+  
+  getEspecialidadeName(espId: number): string {  
+    const espName = this.especialidades.find(esp => esp.especialidadeID === espId);
+    return espName ? espName.nome : 'Unknown';
+  }
+
   openModal(): void {
     const dialogRef = this.dialog.open(MedicoCrudTemplateComponent, {
-      height: '490px',
-      width: '30%',
+      height: '700px',
+      width: '450px',
       disableClose: true,
     });
 

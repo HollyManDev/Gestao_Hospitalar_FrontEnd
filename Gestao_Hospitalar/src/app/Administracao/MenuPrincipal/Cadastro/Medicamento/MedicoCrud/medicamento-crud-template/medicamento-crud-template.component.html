@@ -1,0 +1,45 @@
+<div class="main">
+    <h1>Medicamentos</h1>
+    <form class="formulario" [formGroup]="medicamentoForm" (ngSubmit)="submit()">
+
+        <mat-form-field class="input">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Ex. Paracetamol" formControlName="nome" required>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+            <mat-label>Quantidade</mat-label>
+            <input matInput type="number" formControlName="quantidade"  required min="0">
+        </mat-form-field>
+
+        <mat-form-field class="input">
+            <mat-label>Data de Validade</mat-label>
+            <input matInput type="date" formControlName="dataValidade" required>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+            <mat-label>Fornecedor</mat-label> 
+            <mat-select formControlName="fornecedor" required>
+                <mat-option *ngFor="let forn of fornecedores" [value]="forn.nome" (click) = "getFornecedorId(forn)">
+                    {{forn.nome }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="divbtn">
+            <button mat-button class="btn" type="button" (click)="Close()">
+                <mat-icon class="icon">close</mat-icon>
+                <span>Cancelar</span>
+            </button>
+            <button mat-button class="btn" type="submit">
+                <ng-container *ngIf="typeButton === 'Save'">
+                    <mat-icon class="icon">save</mat-icon>
+                </ng-container>
+                <ng-container *ngIf="typeButton === 'Add'">
+                    <mat-icon class="icon">add</mat-icon>
+                </ng-container>
+                <span>{{ typeButton }}</span>
+            </button>
+        </div>
+    </form>
+</div>

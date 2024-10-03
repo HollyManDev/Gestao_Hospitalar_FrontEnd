@@ -32,13 +32,13 @@ h1{
     display: flex;
     justify-content: space-between;
    
-}
-.icon{
-    color: #212121;
-}
-span{
-    width: 100%;
-   display: none;
+    .icon{
+        color: #212121;
+    }
+    span{
+        width: 100%;
+       display: none;
+    }
 }
 .btn:hover{
     background-color: #212121;

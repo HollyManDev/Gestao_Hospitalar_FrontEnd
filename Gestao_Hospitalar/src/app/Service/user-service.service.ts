@@ -8,7 +8,9 @@ import { Especialidade } from '../Models/Especialidade';
 import { Fornecedor } from '../Models/Fornecedor';
 import { Leito } from '../Models/Leito'; 
 import { Cama } from '../Models/Cama';
-import { Medico } from '../Models/Medico'; // Adicione a importação do modelo Medico
+import { Medico } from '../Models/Medico';
+import { Medicamento } from '../Models/Medicamento'; // Adicione a importação do modelo Medicamento
+import { Equipamento } from '../Models/EquipamentoMedico';
 
 @Injectable({  
   providedIn: 'root'
@@ -23,7 +25,9 @@ export class UserServiceService {
   private forn!: Fornecedor;
   private leito!: Leito;
   private cama!: Cama;
-  private medico!: Medico; // Adicione a variável para armazenar a edição do médico
+  private medico!: Medico;
+  private medicamento!: Medicamento;
+  private equipamento!: Equipamento;
 
   private apiUrl = `${environment.ApiUrl}`;
   
@@ -131,6 +135,40 @@ export class UserServiceService {
     return this.http.put<Response<Medico[]>>(`${this.apiUrl}Medico/Inactivate`, medico);
   }
 
+  // Métodos para Medicamentos
+  GetMedicamentos() : Observable<Response<Medicamento[]>> {
+    return this.http.get<Response<Medicamento[]>>(`${this.apiUrl}InventarioMedicamento`);
+  }
+
+  CreateMedicamento(medicamento: Medicamento) : Observable<Response<Medicamento[]>> {
+    return this.http.post<Response<Medicamento[]>>(`${this.apiUrl}InventarioMedicamento`, medicamento);
+  }
+
+  UpdateMedicamento(medicamento: Medicamento) : Observable<Response<Medicamento[]>> {
+    return this.http.put<Response<Medicamento[]>>(`${this.apiUrl}InventarioMedicamento`, medicamento);
+  }
+
+  DeleteMedicamento(medicamento: Medicamento) : Observable<Response<Medicamento[]>> {
+    return this.http.put<Response<Medicamento[]>>(`${this.apiUrl}InventarioMedicamento/Inactivate`, medicamento);
+  }
+
+   // Métodos para Equipamentos
+   GetEquipamentos(): Observable<Response<Equipamento[]>> {
+    return this.http.get<Response<Equipamento[]>>(`${this.apiUrl}EquipamentoMedico`);
+  }
+
+  CreateEquipamento(equipamento: Equipamento): Observable<Response<Equipamento[]>> {
+    return this.http.post<Response<Equipamento[]>>(`${this.apiUrl}EquipamentoMedico`, equipamento);
+  }
+
+  UpdateEquipamento(equipamento: Equipamento): Observable<Response<Equipamento[]>> {
+    return this.http.put<Response<Equipamento[]>>(`${this.apiUrl}EquipamentoMedico`, equipamento);
+  }
+
+  DeleteEquipamento(equipamento: Equipamento): Observable<Response<Equipamento[]>> {
+    return this.http.put<Response<Equipamento[]>>(`${this.apiUrl}EquipamentoMedico/Inactivate`, equipamento);
+  }
+
   // Métodos de controle de edição e ações
   SetActionRequired(actionreq: string): void {
     this.action = actionreq;
@@ -190,4 +228,23 @@ export class UserServiceService {
   GetMedicoEdition(): Medico {
     return this.medico;
   }
+
+  // Métodos para Medicamento
+  SetMedicamentoEdition(medicamentoEdition: Medicamento): void {
+    this.medicamento = medicamentoEdition;
+  }
+
+  GetMedicamentoEdition(): Medicamento {
+    return this.medicamento;
+  }
+
+  // Métodos para controle de edição e ações para Equipamento
+  SetEquipamentoEdition(equipamentoEdition: Equipamento): void {
+    this.equipamento = equipamentoEdition;
+  }
+
+  GetEquipamentoEdition(): Equipamento {
+    return this.equipamento;
+  }
 }
+

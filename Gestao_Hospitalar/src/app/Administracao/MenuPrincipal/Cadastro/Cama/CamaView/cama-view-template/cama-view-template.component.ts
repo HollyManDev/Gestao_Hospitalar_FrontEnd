@@ -91,7 +91,7 @@ export class CamaViewTemplateComponent {
   getLeitoName(leitoId: number): string {  
     const leitoName = this.leito.find(l => l.leitoID === leitoId);
     return leitoName ? leitoName.descricao : 'Unknown Leito';
-  }
+  }  
 
   addDep(): void {
     this.userService.SetActionRequired('Add');
