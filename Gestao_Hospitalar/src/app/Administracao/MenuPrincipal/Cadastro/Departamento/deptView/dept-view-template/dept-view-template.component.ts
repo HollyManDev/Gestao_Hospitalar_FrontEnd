@@ -83,9 +83,14 @@ export class DeptViewTemplateComponent {
   }
 
   editDepartment(dept: Departamento): void {
-    this.userService.SetActionRequired('Edit');
-    this.userService.SetDepartmentEdition(dept);
-    this.openModal();
+      if(dept.status){
+        this.userService.SetActionRequired('Edit');
+        this.userService.SetDepartmentEdition(dept);
+        this.openModal();
+      }
+      else{
+        this.showErrorMessage('Informacao do departamento indisponivel para edicoes!');
+      }
   }
 
   async removeDepartment(dept: Departamento): Promise<void> {
@@ -146,7 +151,15 @@ export class DeptViewTemplateComponent {
       return result.isConfirmed;
     });
   }
-
+  showErrorMessage(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
   updateUserList(): void {
     this.dataSource.data = this.departamento; // Atualiza os dados da tabela
     if (this.paginator) {

@@ -27,10 +27,11 @@ export class MedicamentoCrudTemplateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.medicamentoEdition = this.userService.GetMedicamentoEdition();
     this.initializeForm();
     this.GetFornecedores();
     this.action = this.userService.GetActionRequired();
-    this.medicamentoEdition = this.userService.GetMedicamentoEdition();
+   
   }
 
   GetFornecedores(): void {
@@ -41,14 +42,15 @@ export class MedicamentoCrudTemplateComponent implements OnInit {
         if (this.action === 'Edit') {
           this.typeButton = 'Save';
     
-          this.fornecedorName = this.getFornecedorName(this.medicamentoEdition.fornecedorid);
+          this.fornecedorName = this.getFornecedorName(this.medicamentoEdition.fornecedorID);
           
           this.medicamentoForm = new FormGroup({
             nome: new FormControl(this.medicamentoEdition.nome, [Validators.required]),
             quantidade: new FormControl(this.medicamentoEdition.quantidade, [Validators.required]),
-            dataValidade: new FormControl(this.medicamentoEdition.datavalidade.toISOString().substring(0, 10), [Validators.required]),
+            dataValidade: new FormControl(this.medicamentoEdition.dataValidade, [Validators.required]),
             fornecedor: new FormControl(this.fornecedorName, [Validators.required]),
           });
+          console.log(this.medicamentoEdition)
         } else {
           this.typeButton = 'Add';
           this.initializeForm();
@@ -88,15 +90,16 @@ getFornecedorName(fornId: number): string {
       };
 
       if (this.action === 'Edit') {
-        medicamentoData.medicamentoid = this.medicamentoEdition.medicamentoid; // Altere para medicamentoid
+        medicamentoData.medicamentoID = this.medicamentoEdition.medicamentoID; // Altere para medicamentoid
 
         if (medicamentoData.nome === this.medicamentoEdition.nome && 
             medicamentoData.quantidade === this.medicamentoEdition.quantidade && 
-            medicamentoData.datavalidade === this.medicamentoEdition.datavalidade) {
+            medicamentoData.dataValidade === this.medicamentoEdition.dataValidade) {
           this.showErrorMessage('Cannot update, make sure you have changed one field at least!');
         } else {
           
-          medicamentoData.fornecedorid = this.medicamentoEdition.fornecedorid;
+          medicamentoData.fornecedorID = this.medicamentoEdition.fornecedorID;
+          medicamentoData.status = this.medicamentoEdition.status;
 
           this.userService.UpdateMedicamento(medicamentoData).subscribe(
             (response) => {

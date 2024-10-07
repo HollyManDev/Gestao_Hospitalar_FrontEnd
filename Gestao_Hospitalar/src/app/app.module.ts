@@ -40,7 +40,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { EquipamentoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Equipamento Medico/EquipamentoView/equipamento-view-template/equipamento-view-template.component';
 import { EquipamentoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Equipamento Medico/EquipamentoCrud/equipamento-crud-template/equipamento-crud-template.component';
 import { PacienteViewTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Paciente/PacienteView/paciente-view-template/paciente-view-template.component';
-import { PacienteCrudTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Paciente/PacienteCrud/paciente-crud-template/paciente-crud-template.component'; // Adicione isso
+import { PacienteCrudTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Paciente/PacienteCrud/paciente-crud-template/paciente-crud-template.component';
+import { FuncionarioViewTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Funcionario/FuncionarioView/funcionario-view-template/funcionario-view-template.component';
+import { FuncCrudTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Funcionario/FuncionarioCrud/funcionario-crud-template/funcionario-crud-template.component';
+import { CargoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoView/cargo-view-template/cargo-view-template.component';
+import { CargoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoCrud/cargo-crud-template/cargo-crud-template.component'; // Adicione isso
 
 @NgModule({
   declarations: [
@@ -66,6 +70,10 @@ import { PacienteCrudTemplateComponent } from './Administracao/MenuPrincipal/Pes
     EquipamentoCrudTemplateComponent,
     PacienteViewTemplateComponent,
     PacienteCrudTemplateComponent,
+    FuncionarioViewTemplateComponent,
+    FuncCrudTemplateComponent,
+    CargoViewTemplateComponent,
+    CargoCrudTemplateComponent,
     
   ],
   imports: [

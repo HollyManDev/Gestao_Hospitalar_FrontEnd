@@ -1,7 +1,8 @@
 export interface Medicamento {
-    medicamentoid: number;
+    medicamentoID: number;
     nome: string;
     quantidade: number;
-    datavalidade: Date; 
-    fornecedorid: number;
+    dataValidade: Date; 
+    fornecedorID: number;
+    status: Boolean;
 }

@@ -27,10 +27,13 @@ export class MedicoCrudTemplateComponent {
   ) {}
 
   ngOnInit(): void {
-    this.getEspecialidades();
+    this.getMedicos();
+    this.initializeForm();
     this.action = this.userService.GetActionRequired();
     this.medicoEdition = this.userService.GetMedicoEdition();
-    this.initializeForm();
+    this.getEspecialidades();
+   
+  
   }
 
   getEspecialidades(): void {
@@ -42,7 +45,20 @@ export class MedicoCrudTemplateComponent {
         this.initializeForm(this.action === 'Edit' ? this.medicoEdition : undefined);
       }
     });
+    if( this.medicoEdition){
+      this.espId = this.medicoEdition.especialidadeID
+    }
+  
   }
+  getMedicos(): void {
+    this.userService.GetMedicos().subscribe(userData => {
+      if (userData.data) {
+        this.medicos = userData.data;
+        
+      }
+    });
+  }
+
 
   getEspecialidadeID(esp: Especialidade): void {
     this.espId = esp.especialidadeID;
@@ -53,7 +69,8 @@ export class MedicoCrudTemplateComponent {
            medicoEdition.telefone === medicoData.telefone &&
            medicoEdition.email === medicoData.email &&
            medicoEdition.endereco === medicoData.endereco &&
-           medicoEdition.horarioTrabalho === medicoData.horarioTrabalho;
+           medicoEdition.horarioTrabalho === medicoData.horarioTrabalho &&
+           medicoEdition.especialidadeID === medicoData.especialidadeID ;
   }
 
   getEspecialidadeName(esp: number): string {  
@@ -63,13 +80,14 @@ export class MedicoCrudTemplateComponent {
 
   VerifyEmail(email: string): boolean {  
     // Verifica se o email já existe entre os médicos, ignorando o médico em edição
-    return this.medicos.some(l => l.email === email && l.medicoID !== this.medicoEdition.medicoID);
+    return this.medicos.some(l => l.email === email );
   }
 
   initializeForm(medico?: Medico): void {
+    
     this.medicoForm = new FormGroup({
       nome: new FormControl(medico ? medico.nome : '', [Validators.required]),
-      especialidadeID: new FormControl(medico ? medico.especialidadeID : '', [Validators.required]), // Usa especialidadeID diretamente
+      especialidadeID: new FormControl(medico ? this.espName : '', [Validators.required]), // Usa especialidadeID diretamente
       telefone: new FormControl(medico ? medico.telefone : '', [Validators.required]),
       email: new FormControl(medico ? medico.email : '', [Validators.required, Validators.email]),
       endereco: new FormControl(medico ? medico.endereco : ''),
@@ -81,7 +99,7 @@ export class MedicoCrudTemplateComponent {
   submit() {
     if (this.medicoForm.valid) {
       const medicoData: Medico = this.medicoForm.value;
-      medicoData.especialidadeID = this.espId; // Passa o ID da especialidade
+      medicoData.especialidadeID = this.espId; 
 
       if (this.action === 'Edit') {
         if (!this.ifExist(this.medicoEdition, medicoData)) {
@@ -89,6 +107,7 @@ export class MedicoCrudTemplateComponent {
 
           // Verifica se o email é novo ou se é o mesmo do médico que está sendo editado
           const emailExists = this.VerifyEmail(medicoData.email);
+        
           if (emailExists) {
             this.showErrorMessage('Por favor, escolha outro email, esse já está em uso!');
           } else {
@@ -96,6 +115,7 @@ export class MedicoCrudTemplateComponent {
               () => {
                 this.showSuccessMessage('Médico atualizado com sucesso');
                 this.closeDialog();
+                location.reload()
               },
               error => {
                 this.showErrorMessage('Erro ao atualizar médico: ' + error.message);
@@ -114,6 +134,7 @@ export class MedicoCrudTemplateComponent {
             () => {
               this.showSuccessMessage('Médico salvo com sucesso');
               this.closeDialog();
+              location.reload()
             },
             error => {
               this.showErrorMessage('Erro ao salvar médico: ' + error.message);

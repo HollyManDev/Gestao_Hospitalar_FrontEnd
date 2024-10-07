@@ -4,19 +4,19 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
-import { Fornecedor } from 'src/app/Models/Fornecedor';
-import { FornecedorCrudTemplateComponent } from '../../FornecedorCrud/fornecedor-crud-template/fornecedor-crud-template.component';
+import { Funcionario } from 'src/app/Models/Funcionario';
+import { FuncCrudTemplateComponent } from '../../FuncionarioCrud/funcionario-crud-template/funcionario-crud-template.component';
 import { UserServiceService } from 'src/app/Service/user-service.service';
 
 @Component({
-  selector: 'app-fornecedor-view-template',
-  templateUrl: './fornecedor-view-template.component.html',
-  styleUrls: ['./fornecedor-view-template.component.scss']
+  selector: 'app-funcionario-view-template',
+  templateUrl: './funcionario-view-template.component.html',
+  styleUrls: ['./funcionario-view-template.component.scss']
 })
-export class FornecedorViewTemplateComponent implements OnInit {
-  fornecedores: Fornecedor[] = [];
-  dataSource: MatTableDataSource<Fornecedor> = new MatTableDataSource<Fornecedor>([]);
-  displayedColumns: string[] = ['Id', 'Nome', 'Nuit', 'Telefone', 'Email', 'Status', 'Edit', 'Remove'];
+export class FuncionarioViewTemplateComponent implements OnInit {
+  funcionarios: Funcionario[] = [];
+  dataSource: MatTableDataSource<Funcionario> = new MatTableDataSource<Funcionario>([]);
+  displayedColumns: string[] = ['funcionarioID', 'nome', 'cargo', 'telefone', 'email', 'endereco', 'dataContratacao', 'status', 'departamentoID', 'cargoID', 'edit', 'remove'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -27,82 +27,83 @@ export class FornecedorViewTemplateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.GetFornecedores();
+    this.GetFuncionarios();
     this.updateUserList();
   }
 
-  GetFornecedores(): void {
-    this.userService.GetFornecedores().subscribe(userData => {
+  GetFuncionarios(): void {
+    this.userService.GetFuncionarios().subscribe(userData => {
       if (userData.data) {
-        this.fornecedores = userData.data;
+        this.funcionarios = userData.data;
         this.updateUserList();
       }
     });
   }
 
   openModal(): void {
-    const dialogRef = this.dialog.open(FornecedorCrudTemplateComponent, {
-      height: '490px',
+    const dialogRef = this.dialog.open(FuncCrudTemplateComponent, {
+      height: '680px',
       width: '30%',
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('O modal foi fechado. Resultado:', result);
       this.updateUserList();
     });
   }
 
-
   search(event: Event): void {
     const target = event.target as HTMLInputElement;
     const value = target.value.trim().toLowerCase();
-  
-    // Defina o filtro do MatTableDataSource
+
     this.dataSource.filter = value;
-  
-    // Se o filtro não estiver vazio, faz o filtro
+
     if (value) {
-      this.dataSource.filterPredicate = (data:Fornecedor, filter: string) => {
+      this.dataSource.filterPredicate = (data: Funcionario, filter: string) => {
         return data.nome.toLowerCase().includes(filter);
       };
     } else {
-      // Se o valor de filtro estiver vazio, mostre todos os dados
       this.dataSource.filterPredicate = () => true;
     }
-  
-    // Atualize a lista de departamentos
+
     this.updateUserList();
   }
-  addFornecedor(): void {
+
+  addFunc(): void {
     this.userService.SetActionRequired('Add');
     this.openModal();
   }
 
-  editFornecedor(fornecedor: Fornecedor): void {
-    
-    if(fornecedor.status){
+  editFuncionarios(func: Funcionario): void {
+    if (func.status) {
       this.userService.SetActionRequired('Edit');
-      this.userService.SetFornecedorEdition(fornecedor);
+      this.userService.SetFuncionarioEdition(func);
       this.openModal();
-    }
-    else{
-      this.showErrorMessage('Informacao Indisponivel para Edicao!');
+    } else {
+      this.showErrorMessage('Informação Indisponível para Edição!');
     }
   }
 
-  async removeFornecedor(fornecedor: Fornecedor): Promise<void> {
-    if (!fornecedor.status) {
+  async removeFuncionarios(func: Funcionario): Promise<void> {
+    if (!func.status) {
       this.alreadyDeleted();
     } else {
       const confirmed = await this.confirmDelete();
       if (confirmed) {
-        this.userService.DeleteFornecedor(fornecedor).subscribe(
-          () => {
-            this.GetFornecedores();
+        this.userService.DeleteFuncionario(func).subscribe(
+          (response) => {
+            this.userService.GetFuncionarios().subscribe(userData => {
+              if (userData.data) {
+                this.funcionarios = userData.data;
+                this.updateUserList();
+              }
+            });
+            this.router.navigate(['/InicioAdmin/Funcionario']);
             this.showSuccessMessage();
           },
           (error) => {
-            console.error('Erro ao deletar Fornecedor:', error);
+            console.error('Erro ao deletar Funcionarios:', error);
           }
         );
       }
@@ -112,11 +113,12 @@ export class FornecedorViewTemplateComponent implements OnInit {
   showSuccessMessage(): void {
     Swal.fire({
       icon: 'success',
-      title: 'Data Deleted Successfully',
+      title: 'Dados Deletados com Sucesso',
       showConfirmButton: false,
       timer: 2000
     });
   }
+
   showErrorMessage(message: string) {
     Swal.fire({
       icon: 'error',
@@ -130,7 +132,7 @@ export class FornecedorViewTemplateComponent implements OnInit {
   alreadyDeleted(): void {
     Swal.fire({
       icon: 'error',
-      title: 'Cannot delete, it is already unavailable!',
+      title: 'Não é possível deletar, já está indisponível!',
       showConfirmButton: false,
       timer: 2000
     });
@@ -138,22 +140,22 @@ export class FornecedorViewTemplateComponent implements OnInit {
 
   confirmDelete(): Promise<boolean> {
     return Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this data!',
+      title: 'Você tem certeza?',
+      text: 'Você não poderá recuperar esses dados!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Sim, delete!'
     }).then((result) => {
       return result.isConfirmed;
     });
   }
 
   updateUserList(): void {
-    this.dataSource.data = this.fornecedores;
+    this.dataSource.data = this.funcionarios; 
     if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
+      this.dataSource.paginator = this.paginator; 
     }
   }
 }

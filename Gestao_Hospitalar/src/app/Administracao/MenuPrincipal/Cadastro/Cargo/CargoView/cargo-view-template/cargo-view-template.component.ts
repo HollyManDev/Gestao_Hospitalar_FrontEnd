@@ -1,20 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Cargo } from 'src/app/Models/Cargo';
+import Swal from 'sweetalert2';
+import { CargoCrudTemplateComponent } from '../../CargoCrud/cargo-crud-template/cargo-crud-template.component';
+import { UserServiceService } from 'src/app/Service/user-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import Swal from 'sweetalert2';
-import { UserServiceService } from 'src/app/Service/user-service.service';
-import { Leito } from 'src/app/Models/Leito';
-import { LeitoCrutTemplateComponent } from '../../LeitoCrud/leito-crut-template/leito-crut-template.component';
 
 @Component({
-  selector: 'app-leito-view-template',
-  templateUrl: './leito-view-template.component.html',
-  styleUrls: ['./leito-view-template.component.scss']
+  selector: 'app-cargo-view-template',
+  templateUrl: './cargo-view-template.component.html',
+  styleUrls: ['./cargo-view-template.component.scss']
 })
-export class LeitoViewTemplateComponent implements OnInit {
-  leitos: Leito[] = [];
-  dataSource: MatTableDataSource<Leito> = new MatTableDataSource<Leito>([]);
+export class CargoViewTemplateComponent {
+  cargos: Cargo[] = [];
+  dataSource: MatTableDataSource<Cargo> = new MatTableDataSource<Cargo>([]);
   displayedColumns: string[] = ['Id', 'Descricao', 'Status', 'Edit', 'Remove'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -25,20 +25,20 @@ export class LeitoViewTemplateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.GetLeitos();
+    this.GetCargos();
   }
 
-  GetLeitos(): void {
-    this.userService.GetLeitos().subscribe(userData => {
+  GetCargos(): void {
+    this.userService.GetCargos().subscribe(userData => {
       if (userData.data) {
-        this.leitos = userData.data;
+        this.cargos = userData.data;
         this.updateUserList();
       }
     });
   }
 
   openModal(): void {
-    const dialogRef = this.dialog.open(LeitoCrutTemplateComponent, {
+    const dialogRef = this.dialog.open(CargoCrudTemplateComponent, {
       height: '210px',
       width: '30%',
       disableClose: true,
@@ -46,7 +46,7 @@ export class LeitoViewTemplateComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.GetLeitos();
+        this.GetCargos();
       }
     });
   }
@@ -60,7 +60,7 @@ export class LeitoViewTemplateComponent implements OnInit {
   
     // Se o filtro não estiver vazio, faz o filtro
     if (value) {
-      this.dataSource.filterPredicate = (data: Leito, filter: string) => {
+      this.dataSource.filterPredicate = (data: Cargo, filter: string) => {
         return data.descricao.toLowerCase().includes(filter);
       };
     } else {
@@ -71,16 +71,16 @@ export class LeitoViewTemplateComponent implements OnInit {
     // Atualize a lista de departamentos
     this.updateUserList();
   }
-  addLeito(): void {
+  addCargo(): void {
     this.userService.SetActionRequired('Add');
     this.openModal();
   }
 
-  editLeito(leito: Leito): void {
+  editCargo(cargo: Cargo): void {
    
-    if(leito.status){
+    if(cargo.status){
       this.userService.SetActionRequired('Edit');
-      this.userService.SetLeitoEdition(leito);
+      this.userService.SetCargoEdition(cargo);
       this.openModal();
     }
     else{
@@ -88,15 +88,15 @@ export class LeitoViewTemplateComponent implements OnInit {
     }
   }
 
-  async removeLeito(leito: Leito): Promise<void> {
+  async removeCargo(cargo: Cargo): Promise<void> {
      
-      if(leito.status){
+      if(cargo.status){
         const confirmed = await this.confirmDelete();
         if (confirmed) {
-          this.userService.DeleteLeito(leito).subscribe(
+          this.userService.DeleteCargo(cargo).subscribe(
             (response) => {
-              this.GetLeitos();
-              this.showSuccessMessage('Leito deleted successfully!');
+              this.GetCargos();
+              this.showSuccessMessage('Cargo deleted successfully!');
             },
             (error) => {
               console.error('Error deleting Leito:', error);
@@ -142,7 +142,7 @@ export class LeitoViewTemplateComponent implements OnInit {
   }
 
   updateUserList(): void {
-    this.dataSource.data = this.leitos;
+    this.dataSource.data = this.cargos;
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
     }

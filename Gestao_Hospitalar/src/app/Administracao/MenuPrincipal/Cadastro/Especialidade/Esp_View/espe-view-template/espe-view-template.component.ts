@@ -84,9 +84,14 @@ export class EspeViewTemplateComponent implements OnInit {
   }
 
   editEspecialidades(esp: Especialidade): void {
-    this.userService.SetActionRequired('Edit');
-    this.userService.SetEspecialidadeEdition(esp);
-    this.openModal();
+      if(esp.status){
+        this.userService.SetActionRequired('Edit');
+        this.userService.SetEspecialidadeEdition(esp);
+        this.openModal();
+      }
+      else{
+        this.showErrorMessage('Informacao Indisponivel para Edicao!');
+      }
   }
 
   async removeEspecialidades(esp: Especialidade): Promise<void> {
@@ -126,7 +131,15 @@ export class EspeViewTemplateComponent implements OnInit {
       timer: 2000
     });
   }
-
+  showErrorMessage(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
   alreadyDeleted(): void {
     Swal.fire({
       icon: 'error',

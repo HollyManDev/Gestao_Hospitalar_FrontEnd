@@ -76,9 +76,15 @@ export class EquipamentoViewTemplateComponent {
   }
 
   editEquipamento(equip: Equipamento): void {
-    this.userService.SetActionRequired('Edit');
-    this.userService.SetEquipamentoEdition(equip);
-    this.openModal();
+    
+      if(equip.status){
+        this.userService.SetActionRequired('Edit');
+        this.userService.SetEquipamentoEdition(equip);
+        this.openModal();
+      }
+      else{
+        this.showErrorMessage('Informacao Indisponivel para Edicao!');
+      }
   }
 
   async removeEquipamento(equip: Equipamento): Promise<void> {
@@ -118,7 +124,15 @@ export class EquipamentoViewTemplateComponent {
       timer: 2000
     });
   }
-
+  showErrorMessage(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
   confirmDelete(): Promise<boolean> {
     return Swal.fire({
       title: 'Tem certeza?',

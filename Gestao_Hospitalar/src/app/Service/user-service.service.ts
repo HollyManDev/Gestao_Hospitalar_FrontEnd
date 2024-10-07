@@ -11,6 +11,9 @@ import { Cama } from '../Models/Cama';
 import { Medico } from '../Models/Medico';
 import { Medicamento } from '../Models/Medicamento'; // Adicione a importação do modelo Medicamento
 import { Equipamento } from '../Models/EquipamentoMedico';
+import { Cargo } from '../Models/Cargo';
+import { Paciente } from '../Models/Paciente';
+import { Funcionario } from '../Models/Funcionario';
 
 @Injectable({  
   providedIn: 'root'
@@ -28,6 +31,9 @@ export class UserServiceService {
   private medico!: Medico;
   private medicamento!: Medicamento;
   private equipamento!: Equipamento;
+  private cargo!: Cargo;
+  private paciente!: Paciente;
+  private funcionario!: Funcionario;
 
   private apiUrl = `${environment.ApiUrl}`;
   
@@ -169,6 +175,58 @@ export class UserServiceService {
     return this.http.put<Response<Equipamento[]>>(`${this.apiUrl}EquipamentoMedico/Inactivate`, equipamento);
   }
 
+  
+  // Métodos para Cargos
+  GetCargos() : Observable<Response<Cargo[]>> {
+    return this.http.get<Response<Cargo[]>>(`${this.apiUrl}Cargo`);
+  }
+
+  CreateCargo(cargo: Cargo) : Observable<Response<Cargo[]>> {
+    return this.http.post<Response<Cargo[]>>(`${this.apiUrl}Cargo`, cargo);
+  }
+
+  UpdateCargo(cargo: Cargo) : Observable<Response<Cargo[]>> {
+    return this.http.put<Response<Cargo[]>>(`${this.apiUrl}Cargo`, cargo);
+  }
+
+  DeleteCargo(cargo: Cargo) : Observable<Response<Cargo[]>> {
+    return this.http.put<Response<Cargo[]>>(`${this.apiUrl}Cargo/Inactivate`, cargo);
+  }
+
+   // Métodos para Pacientes
+   GetPacientes() : Observable<Response<Paciente[]>> {
+    return this.http.get<Response<Paciente[]>>(`${this.apiUrl}Paciente`);
+  }
+
+  CreatePaciente(paciente: Paciente) : Observable<Response<Paciente[]>> {
+    return this.http.post<Response<Paciente[]>>(`${this.apiUrl}Paciente`, paciente);
+  }
+
+  UpdatePaciente(paciente: Paciente) : Observable<Response<Paciente[]>> {
+    return this.http.put<Response<Paciente[]>>(`${this.apiUrl}Paciente`, paciente);
+  }
+
+  DeletePaciente(paciente: Paciente) : Observable<Response<Paciente[]>> {
+    return this.http.put<Response<Paciente[]>>(`${this.apiUrl}Paciente/Inactivate`, paciente);
+  }
+
+  //Metodos para Funcionario 
+  GetFuncionarios() : Observable<Response<Funcionario[]>> {
+    return this.http.get<Response<Funcionario[]>>(`${this.apiUrl}Funcionario`);
+  }
+  CreateFuncionario(paciente: Funcionario) : Observable<Response<Funcionario[]>> {
+    return this.http.post<Response<Funcionario[]>>(`${this.apiUrl}Funcionario`, paciente);
+  }
+
+  UpdateFuncionario(paciente: Funcionario) : Observable<Response<Funcionario[]>> {
+    return this.http.put<Response<Funcionario[]>>(`${this.apiUrl}Funcionario`, paciente);
+  }
+
+  DeleteFuncionario(paciente: Funcionario) : Observable<Response<Funcionario[]>> {
+    return this.http.put<Response<Funcionario[]>>(`${this.apiUrl}Funcionario/Inactivate`, paciente);
+  }
+
+
   // Métodos de controle de edição e ações
   SetActionRequired(actionreq: string): void {
     this.action = actionreq;
@@ -246,5 +304,32 @@ export class UserServiceService {
   GetEquipamentoEdition(): Equipamento {
     return this.equipamento;
   }
+
+   // Métodos para Cargo
+   SetCargoEdition(cargoEdition: Cargo): void {
+    this.cargo = cargoEdition;
+  }
+  
+  GetCargoEdition(): Cargo {
+    return this.cargo;
+  }
+  
+  // Métodos para Paciente
+  SetPacienteEdition(cargoEdition: Paciente): void {
+    this.paciente = cargoEdition;
+  }
+  
+  GetPacienteEdition(): Paciente {
+    return this.paciente;
+  }
+   // Métodos para Paciente
+   SetFuncionarioEdition(funEdition: Funcionario): void {
+    this.funcionario = funEdition;
+  }
+  
+  GetFuncionarioEdition(): Funcionario{
+    return this.funcionario;
+  }
+
 }
 

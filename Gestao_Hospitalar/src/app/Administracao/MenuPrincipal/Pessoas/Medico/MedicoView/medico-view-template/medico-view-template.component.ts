@@ -97,24 +97,35 @@ export class MedicoViewTemplateComponent implements OnInit {
   }
 
   editMedico(medico: Medico): void {
-    this.userService.SetActionRequired('Edit');
-    this.userService.SetMedicoEdition(medico);
-    this.openModal();
+    if(medico.status === true){
+      this.userService.SetActionRequired('Edit');
+      this.userService.SetMedicoEdition(medico);
+      this.openModal();
+    }
+    else{
+            this.showErrorMessage('Nao pode editar, pois a informacao ja foi eliminada.');
+    }
+   
   }
 
   async removeMedico(medico: Medico): Promise<void> {
-    const confirmed = await this.confirmDelete();
-    if (confirmed) {
-      this.userService.DeleteMedico(medico).subscribe(
-        () => {
-          this.getMedicos();
-          this.showSuccessMessage();
-        },
-        (error) => {
-          console.error('Erro ao deletar Médico:', error);
-        }
-      );
-    }
+     if(medico.status === true){
+      const confirmed = await this.confirmDelete();
+      if (confirmed) {
+        this.userService.DeleteMedico(medico).subscribe(
+          () => {
+            this.getMedicos();
+            this.showSuccessMessage();
+          },
+          (error) => {
+            console.error('Erro ao deletar Médico:', error);
+          }
+        );
+      }
+     }
+     else{
+      this.showErrorMessage('Nao pode eliminar, ele ja esta eliminado!');
+     }
   }
 
   showSuccessMessage(): void {
@@ -137,6 +148,15 @@ export class MedicoViewTemplateComponent implements OnInit {
       confirmButtonText: 'Sim, deletar!'
     }).then((result) => {
       return result.isConfirmed;
+    });
+  }
+  showErrorMessage(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000
     });
   }
 

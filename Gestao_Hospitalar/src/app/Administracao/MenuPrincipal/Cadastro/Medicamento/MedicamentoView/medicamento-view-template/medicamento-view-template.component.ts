@@ -18,7 +18,7 @@ export class MedicamentoViewTemplateComponent implements OnInit {
   medicamentos: Medicamento[] = [];
   fornecedor: Fornecedor[] = [];
   dataSource: MatTableDataSource<Medicamento> = new MatTableDataSource<Medicamento>([]);
-  displayedColumns: string[] = ['Id', 'Nome', 'Quantidade', 'DataValidade', 'Fornecedor', 'Edit', 'Remove'];
+  displayedColumns: string[] = ['Id', 'Nome', 'Quantidade', 'DataValidade', 'Fornecedor', 'Status', 'Edit', 'Remove'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 

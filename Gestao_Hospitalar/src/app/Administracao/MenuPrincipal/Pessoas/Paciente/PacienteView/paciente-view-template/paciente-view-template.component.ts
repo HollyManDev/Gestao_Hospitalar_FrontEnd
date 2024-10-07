@@ -1,95 +1,131 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { Paciente } from 'src/app/Models/Paciente';
+import { PacienteCrudTemplateComponent } from '../../PacienteCrud/paciente-crud-template/paciente-crud-template.component';
 import { UserServiceService } from 'src/app/Service/user-service.service';
 import Swal from 'sweetalert2';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 
 @Component({
-  selector: 'app-paciente-list',
+  selector: 'app-paciente-view-template',
   templateUrl: './paciente-view-template.component.html',
   styleUrls: ['./paciente-view-template.component.scss']
 })
 export class PacienteViewTemplateComponent implements OnInit {
+  pacientes: Paciente[] = [];
+  dataSource: MatTableDataSource<Paciente> = new MatTableDataSource<Paciente>([]);
+  displayedColumns: string[] = [
+    'pacienteID', 'nome', 'dataNascimento', 'sexo', 'endereco', 'telefone', 'email', 
+    'bi', 'contatoEmergenciaNome', 'contatoEmergenciaTelefone', 'contatoEmergenciaRelacao', 
+    'historicoMedico', 'seguro', 'leito', 'status', 'edit', 'remove'
+  ];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(public dialog: MatDialog, private userService: UserServiceService) {}
+
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getPacientes();
   }
 
-  // pacientes = new MatTableDataSource<any>();
-  // displayedColumns: string[] = ['nome', 'dataNascimento', 'sexo', 'telefone', 'email', 'actions'];
-  // totalPacientes: number = 0;
+  getPacientes(): void {
+    this.userService.GetPacientes().subscribe(userData => {
+      if (userData.data) {
+        this.pacientes = userData.data;
+        this.updatePacienteList();
+      }
+    });
+  }
 
-  // @ViewChild(MatPaginator) paginator!: MatPaginator;
-  // @ViewChild(MatSort) sort!: MatSort;
+  updatePacienteList(): void {
+    this.dataSource.data = this.pacientes;
+    this.dataSource.paginator = this.paginator;
+  }
 
-  // constructor(
-  //   private dialog: MatDialog,
-  //   private userService: UserServiceService
-  // ) {}
+  search(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value.trim().toLowerCase();
+    this.dataSource.filter = value;
+    if (value) {
+      this.dataSource.filterPredicate = (data: Paciente, filter: string) =>
+        data.nome.toLowerCase().includes(filter);
+    } else {
+      this.dataSource.filterPredicate = () => true;
+    }
+    this.updatePacienteList();
+  }
 
-  // ngOnInit(): void {
-  //   this.loadPacientes();
-  // }
+  addPaciente(): void {
+    this.userService.SetActionRequired('Add');
+    this.openModal();
+  }
 
-  // loadPacientes(event?: any): void {
-  //   const pageIndex = event?.pageIndex ?? 0;
-  //   const pageSize = event?.pageSize ?? 10;
+  editPaciente(paciente: Paciente): void {
+    if (paciente.status) {
+      this.userService.SetActionRequired('Edit');
+      this.userService.SetPacienteEdition(paciente);
+      this.openModal();
+    } else {
+      this.showErrorMessage('Informação indisponível para edição!');
+    }
+  }
 
-  //   this.userService.GetPacientes(pageIndex, pageSize).subscribe(
-  //     (data) => {
-  //       this.pacientes.data = data.pacientes;
-  //       this.totalPacientes = data.total;
-  //       this.pacientes.paginator = this.paginator;
-  //       this.pacientes.sort = this.sort;
-  //     },
-  //     (error) => {
-  //       console.error('Erro ao carregar pacientes:', error);
-  //     }
-  //   );
-  // }
+  removePaciente(paciente: Paciente): void {
+    if (!paciente.status) {
+      this.alreadyDeleted();
+    } else {
+      this.confirmDelete().then(confirmed => {
+        if (confirmed) {
+          this.userService.DeletePaciente(paciente).subscribe(() => {
+            this.getPacientes();
+            this.showSuccessMessage('Paciente deletado com sucesso!');
+          });
+        }
+      });
+    }
+  }
 
-  // applyFilter(event: Event) {
-  //   const filterValue = (event.target as HTMLInputElement).value;
-  //   this.pacientes.filter = filterValue.trim().toLowerCase();
-  // }
+  openModal(): void {
+    const dialogRef = this.dialog.open(PacienteCrudTemplateComponent, {
+      width: '950px',
+      disableClose: true
+    });
 
-  // editPaciente(paciente: any): void {
-  //   this.userService.SetPacienteEdition(paciente);
-  //   this.dialog.open(PacienteCrudTemplateComponent, {
-  //     width: '600px'
-  //   }).afterClosed().subscribe(result => {
-  //     if (result) {
-  //       this.loadPacientes();
-  //     }
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe(result => {
+      this.getPacientes();
+    });
+  }
 
-  // deletePaciente(pacienteID: number): void {
-  //   Swal.fire({
-  //     title: 'Tem certeza?',
-  //     text: "Essa ação não pode ser desfeita!",
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Sim, excluir!'
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       this.userService.DeletePaciente(pacienteID).subscribe(
-  //         (response) => {
-  //           Swal.fire(
-  //             'Excluído!',
-  //             'Paciente foi excluído com sucesso.',
-  //             'success'
-  //           );
-  //           this.loadPacientes();
-  //         },
-  //         (error) => {
-  //           console.error('Erro ao excluir paciente:', error);
-  //         }
-  //       );
-  //     }
-  //   });
-  // }
+  showErrorMessage(message: string): void {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro',
+      text: message,
+    });
+  }
+
+  showSuccessMessage(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: 'Sucesso',
+      text: message,
+    });
+  }
+
+  alreadyDeleted(): void {
+    this.showErrorMessage('Paciente já removido.');
+  }
+
+  confirmDelete(): Promise<boolean> {
+    return Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Você não poderá reverter isso!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, deletar!'
+    }).then(result => result.isConfirmed);
+  }
 }

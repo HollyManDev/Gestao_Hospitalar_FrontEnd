@@ -99,9 +99,14 @@ export class CamaViewTemplateComponent {
   }
 
   editCama(cama: Cama): void {
-    this.userService.SetActionRequired('Edit');
-    this.userService.SetCamaEdition(cama);
-    this.openModal();
+       if(cama.status){
+        this.userService.SetActionRequired('Edit');
+        this.userService.SetCamaEdition(cama);
+        this.openModal();
+       }
+       else{
+        this.showErrorMessage('Informacao da cama esta indisponivel para edicoes!');
+       }
   }
 
   async removeCama(cama: Cama): Promise<void> {
@@ -151,6 +156,15 @@ export class CamaViewTemplateComponent {
     });
   }
 
+  showErrorMessage(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro!',
+      text: message,
+      showConfirmButton: false,
+      timer: 3000
+    });
+  }
   confirmDelete(): Promise<boolean> {
     return Swal.fire({
       title: 'Are you sure?',

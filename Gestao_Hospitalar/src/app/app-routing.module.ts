@@ -11,6 +11,9 @@ import { CamaViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastr
 import { MedicoViewTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Medico/MedicoView/medico-view-template/medico-view-template.component';
 import { MedicamentoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Medicamento/MedicamentoView/medicamento-view-template/medicamento-view-template.component';
 import { EquipamentoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Equipamento Medico/EquipamentoView/equipamento-view-template/equipamento-view-template.component';
+import { PacienteViewTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Paciente/PacienteView/paciente-view-template/paciente-view-template.component';
+import { CargoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoView/cargo-view-template/cargo-view-template.component';
+import { FuncionarioViewTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Funcionario/FuncionarioView/funcionario-view-template/funcionario-view-template.component';
 
 
 const routes: Routes = [
@@ -23,6 +26,7 @@ const routes: Routes = [
     children: [
       { path: 'Home', component: HomeTemplateComponent },
       { path: 'Departamento', component: DeptViewTemplateComponent }, 
+      { path: 'Cargo', component: CargoViewTemplateComponent },
       { path: 'Especialidade', component: EspeViewTemplateComponent }, 
       { path: 'Fornecedor', component: FornecedorViewTemplateComponent }, 
       { path: 'Leito', component: LeitoViewTemplateComponent }, 
@@ -30,6 +34,8 @@ const routes: Routes = [
       { path: 'Medico', component: MedicoViewTemplateComponent }, 
       { path: 'Medicamento', component: MedicamentoViewTemplateComponent }, 
       { path: 'Equipamento', component: EquipamentoViewTemplateComponent }, 
+      { path: 'Paciente', component: PacienteViewTemplateComponent }, 
+       { path: 'Funcionario', component: FuncionarioViewTemplateComponent }, 
     ]
   },
 ];
