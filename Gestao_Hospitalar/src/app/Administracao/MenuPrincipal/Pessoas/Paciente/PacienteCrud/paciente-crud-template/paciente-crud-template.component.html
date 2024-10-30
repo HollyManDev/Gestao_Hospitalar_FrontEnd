@@ -1,93 +1,114 @@
 <div class="main">
     <h1>Paciente</h1>
     <form class="formulario" [formGroup]="pacienteForm" (ngSubmit)="submit()">
-
-        <mat-form-field class="input">
+      <!-- Categorias em Abas -->
+      <mat-tab-group>
+        <!-- Aba 1: Informações Pessoais -->
+        <mat-tab label="Informações Pessoais">
+          <mat-form-field class="input">
             <mat-label>Nome</mat-label>
             <input matInput placeholder="Ex. João da Silva" formControlName="nome" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>Data de Nascimento</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="dataNascimento" required>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>Sexo</mat-label>
             <mat-select formControlName="sexo" required>
-                <mat-option value="Masculino">Masculino</mat-option>
-                <mat-option value="Feminino">Feminino</mat-option>
-                <mat-option value="Outro">Outro</mat-option>
+              <mat-option value="Masculino">Masculino</mat-option>
+              <mat-option value="Feminino">Feminino</mat-option>
             </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>Endereço</mat-label>
             <input matInput placeholder="Ex. Rua das Flores, 123" formControlName="endereco" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>Telefone</mat-label>
             <input matInput placeholder="Ex. (99) 99999-9999" formControlName="telefone" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>Email</mat-label>
             <input matInput type="email" placeholder="Ex. joao@email.com" formControlName="email" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>BI</mat-label>
             <input matInput placeholder="Ex. 123456789" formControlName="bi" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
-            <mat-label>Nome do Contato de Emergência</mat-label>
-            <input matInput placeholder="Ex. Maria da Silva" formControlName="contatoEmergenciaNome" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
-            <mat-label>Telefone do Contato de Emergência</mat-label>
-            <input matInput placeholder="Ex. (99) 98888-8888" formControlName="contatoEmergenciaTelefone" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
-            <mat-label>Relação do Contato de Emergência</mat-label>
-            <input matInput placeholder="Ex. Mãe" formControlName="contatoEmergenciaRelacao" required>
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+        </mat-tab>
+  
+        <!-- Aba 2: Contato de Emergência (com FormArray) -->
+        <mat-tab label="Contato de Emergência">
+          <div formArrayName="contatosEmergencia">
+            <div *ngFor="let contato of contatosEmergencia.controls; let i = index" [formGroupName]="i" class="contato">
+              <mat-form-field class="input">
+                <mat-label>Nome do Contato de Emergência</mat-label>
+                <input matInput placeholder="Ex. Maria da Silva" formControlName="contatoEmergenciaNome" >
+              </mat-form-field>
+  
+              <mat-form-field class="input">
+                <mat-label>Telefone do Contato de Emergência</mat-label>
+                <input matInput placeholder="Ex. (99) 98888-8888" formControlName="contatoEmergenciaTelefone" >
+              </mat-form-field>
+  
+              <mat-form-field class="input">
+                <mat-label>Relação do Contato de Emergência</mat-label>
+                <input matInput placeholder="Ex. Mãe" formControlName="contatoEmergenciaRelacao" >
+              </mat-form-field>
+  
+              <!-- Botão para remover um contato -->
+              <button mat-icon-button color="warn" (click)="removerContatoEmergencia(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+  
+          <!-- Botão para adicionar mais um contato -->
+          <button mat-mini-fab color="primary" (click)="addContatoEmergencia()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </mat-tab>
+  
+        <!-- Aba 3: Informações Médicas -->
+        <mat-tab label="Informações Médicas">
+          <mat-form-field class="input">
             <mat-label>Seguro</mat-label>
             <input matInput placeholder="Ex. Saúde Total" formControlName="seguro">
-        </mat-form-field>
-
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>Leito</mat-label>
             <input matInput type="number" placeholder="Ex. 101" formControlName="leito">
-        </mat-form-field>
-        
-        <mat-form-field class="input">
+          </mat-form-field>
+  
+          <mat-form-field class="input">
             <mat-label>Histórico Médico</mat-label>
-            <textarea matInput placeholder="Descreva o histórico médico" formControlName="historicoMedico" required></textarea>
-        </mat-form-field>
-
-        <div class="divbtn">
-            <button mat-button class="btn" type="button" (click)="Close()">
-                <mat-icon class="icon">close</mat-icon>
-                <span>Sair</span>
-            </button>
-
-            <button mat-button class="btn" type="submit">
-                <ng-container *ngIf="typeButton === 'Save'">
-                    <mat-icon class="icon">save</mat-icon>
-                </ng-container>
-                <ng-container *ngIf="typeButton === 'Add'">
-                    <mat-icon class="icon">add</mat-icon>
-                </ng-container>
-                <span>{{ typeButton }}</span>
-            </button>
-        </div>
+            <textarea matInput placeholder="Descreva o histórico médico" formControlName="historicoMedico" ></textarea>
+          </mat-form-field>
+        </mat-tab>
+      </mat-tab-group>
+  
+      <!-- Botões -->
+      <div class="divbtn">
+        <button mat-button class="btn" type="button" (click)="Close()">
+          <mat-icon class="icon">close</mat-icon>
+          <span>Sair</span>
+        </button>
+  
+        <button mat-button class="btn" type="submit">
+          <mat-icon class="icon">{{ typeButton === 'Save' ? 'save' : 'add' }}</mat-icon>
+          <span>{{ typeButton }}</span>
+        </button>
+      </div>
     </form>
-</div>
+  </div>
+  

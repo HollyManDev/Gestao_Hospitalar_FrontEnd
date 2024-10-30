@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Paciente } from 'src/app/Models/Paciente';
@@ -43,13 +43,17 @@ export class PacienteCrudTemplateComponent {
         telefone: new FormControl(this.pacEdition.telefone, [Validators.required]),
         email: new FormControl(this.pacEdition.email, [Validators.required, Validators.email]),
         bi: new FormControl(this.pacEdition.bi, [Validators.required]),
-        contatoEmergenciaNome: new FormControl(this.pacEdition.contatoEmergenciaNome, [Validators.required]),
-        contatoEmergenciaTelefone: new FormControl(this.pacEdition.contatoEmergenciaTelefone, [Validators.required]),
-        contatoEmergenciaRelacao: new FormControl(this.pacEdition.contatoEmergenciaRelacao, [Validators.required]),
+        contatosEmergencia: new FormArray([]), // FormArray para múltiplos contatos
         historicoMedico: new FormControl(this.pacEdition.historicoMedico, [Validators.required]),
         seguro: new FormControl(this.pacEdition.seguro),
         leito: new FormControl(this.pacEdition.leito)
       });
+
+      // Inicializa os contatos de emergência, caso já existam
+      this.pacEdition.contatosEmergencia.forEach(contato => {
+        this.addContatoEmergencia(contato);
+      });
+
     } else {
       if (this.action === 'Add') {
         this.typeButton = 'Add';
@@ -67,13 +71,35 @@ export class PacienteCrudTemplateComponent {
       telefone: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
       bi: new FormControl('', [Validators.required]),
-      contatoEmergenciaNome: new FormControl('', [Validators.required]),
-      contatoEmergenciaTelefone: new FormControl('', [Validators.required]),
-      contatoEmergenciaRelacao: new FormControl('', [Validators.required]),
+      contatosEmergencia: new FormArray([this.novoContatoEmergencia()]), // Inicializa com um contato de emergência
       historicoMedico: new FormControl('', [Validators.required]),
       seguro: new FormControl(''),
       leito: new FormControl('')
     });
+  }
+
+  // Getter para acessar o FormArray de contatos de emergência
+  get contatosEmergencia(): FormArray {
+    return this.pacienteForm.get('contatosEmergencia') as FormArray;
+  }
+
+  // Função para criar um novo grupo de contato de emergência
+  novoContatoEmergencia(contato?: any): FormGroup {
+    return new FormGroup({
+      contatoEmergenciaNome: new FormControl(contato?.contatoEmergenciaNome || '', [Validators.required]),
+      contatoEmergenciaTelefone: new FormControl(contato?.contatoEmergenciaTelefone || '', [Validators.required]),
+      contatoEmergenciaRelacao: new FormControl(contato?.contatoEmergenciaRelacao || '', [Validators.required])
+    });
+  }
+
+  // Função para adicionar um novo contato ao FormArray
+  addContatoEmergencia(contato?: any): void {
+    this.contatosEmergencia.push(this.novoContatoEmergencia(contato));
+  }
+
+  // Função para remover um contato pelo índice
+  removerContatoEmergencia(index: number): void {
+    this.contatosEmergencia.removeAt(index);
   }
 
   submit() {
@@ -95,6 +121,7 @@ export class PacienteCrudTemplateComponent {
       } else if (this.action === 'Add' && this.typeButton === 'Add') {
         let exist = this.pacientes.find(pac => pacData.nome.trim() === pac.nome.trim());
         if (!exist) {
+          console.log(pacData)
           this.userService.CreatePaciente(pacData).subscribe(
             (response) => {
               this.showSuccessMessage();

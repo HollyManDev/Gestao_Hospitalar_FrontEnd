@@ -22,15 +22,34 @@
         <td mat-cell *matCellDef="let funcionario">{{ funcionario.nome }}</td>
       </ng-container>
     
-      <ng-container matColumnDef="cargo">
-        <th mat-header-cell *matHeaderCellDef>Cargo</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.cargo }}</td>
+      <ng-container matColumnDef="departamentoID">
+        <th mat-header-cell *matHeaderCellDef>Departamento</th>
+        <td mat-cell *matCellDef="let funcionario">
+          {{  getDepartamentoName(funcionario.departamentoID) }}</td>
+      </ng-container>
+  
+      <ng-container matColumnDef="cargoID">
+        <th mat-header-cell *matHeaderCellDef> Cargo </th>
+        <td mat-cell *matCellDef="let funcionario">
+          {{ getCargoName(funcionario.cargoID) }}
+        </td>
       </ng-container>
     
       <ng-container matColumnDef="telefone">
         <th mat-header-cell *matHeaderCellDef>Telefone</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.telefone }}</td>
+        <td mat-cell *matCellDef="let funcionario">
+          <!-- Exibe a lista de telefones, se houver, ou uma mensagem de "sem telefone" -->
+          <div *ngIf="funcionario.telefones && funcionario.telefones.length > 0; else noPhones">
+            <ul>
+              <li *ngFor="let telefone of funcionario.telefones">{{ telefone }}</li>
+            </ul>
+          </div>
+          <ng-template #noPhones>
+            <span>Sem telefone</span>
+          </ng-template>
+        </td>
       </ng-container>
+      
   
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>Email</th>
@@ -52,15 +71,7 @@
         <td mat-cell *matCellDef="let funcionario">{{ funcionario.status ? 'Ativo' : 'Inativo' }}</td>
       </ng-container>
   
-      <ng-container matColumnDef="departamentoID">
-        <th mat-header-cell *matHeaderCellDef>Departamento ID</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.departamentoID }}</td>
-      </ng-container>
-  
-      <ng-container matColumnDef="cargoID">
-        <th mat-header-cell *matHeaderCellDef>Cargo ID</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.cargoID }}</td>
-      </ng-container>
+      
     
       <ng-container matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef>Edit</th>

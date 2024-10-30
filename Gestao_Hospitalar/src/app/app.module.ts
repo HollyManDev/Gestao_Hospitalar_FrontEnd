@@ -45,6 +45,8 @@ import { FuncionarioViewTemplateComponent } from './Administracao/MenuPrincipal/
 import { FuncCrudTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Funcionario/FuncionarioCrud/funcionario-crud-template/funcionario-crud-template.component';
 import { CargoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoView/cargo-view-template/cargo-view-template.component';
 import { CargoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoCrud/cargo-crud-template/cargo-crud-template.component'; // Adicione isso
+import { MatTabsModule } from '@angular/material/tabs';
+import { OutrosComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCadastros/outros/outros.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +76,7 @@ import { CargoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadast
     FuncCrudTemplateComponent,
     CargoViewTemplateComponent,
     CargoCrudTemplateComponent,
+    OutrosComponent,
     
   ],
   imports: [
@@ -96,7 +99,8 @@ import { CargoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadast
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule, // Adicione aqui
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

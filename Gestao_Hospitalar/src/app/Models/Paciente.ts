@@ -1,3 +1,5 @@
+import { ContatoEmergencia } from "./ContatoEmergencia";
+
 export interface Paciente {
     pacienteID: number;
     nome: string;
@@ -7,9 +9,7 @@ export interface Paciente {
     telefone: string;
     email: string;
     bi: string;
-    contatoEmergenciaNome: string;
-    contatoEmergenciaTelefone: string;
-    contatoEmergenciaRelacao: string;
+    contatosEmergencia: ContatoEmergencia[];
     historicoMedico: string;
     seguro?: string; // opcional
     status: boolean;

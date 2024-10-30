@@ -18,7 +18,7 @@ export class CamaViewTemplateComponent {
  camas:Cama[] = [];
  leito:Leito[] = [];
   dataSource: MatTableDataSource<Cama> = new MatTableDataSource<Cama>([]);
-  displayedColumns: string[] = ['Id','Quarto','Cama', 'Status', 'Edit', 'Remove'];
+  displayedColumns: string[] = ['Id', 'Quarto', 'Cama', 'Status', 'Alocar', 'Edit', 'Remove'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -76,6 +76,7 @@ export class CamaViewTemplateComponent {
   
     // Se o filtro não estiver vazio, faz o filtro
     if (value) {
+
       this.dataSource.filterPredicate = (data:Cama, filter: string) => {
         return data.descricao.toLowerCase().includes(filter);
       };
@@ -90,13 +91,14 @@ export class CamaViewTemplateComponent {
 
   getLeitoName(leitoId: number): string {  
     const leitoName = this.leito.find(l => l.leitoID === leitoId);
-    return leitoName ? leitoName.descricao : 'Unknown Leito';
+    return leitoName ? leitoName.descricao : 'A cama está sem alocação';
   }  
 
   addDep(): void {
     this.userService.SetActionRequired('Add');
     this.openModal();
   }
+  
 
   editCama(cama: Cama): void {
        if(cama.status){
@@ -109,6 +111,26 @@ export class CamaViewTemplateComponent {
        }
   }
 
+  alocarCama(cama: Cama): void {
+    if(cama.status){
+      this.userService.SetActionRequired('Alocar');
+      this.userService.SetCamaEdition(cama);
+      this.openModal();
+     }
+     else{
+      this.showErrorMessage('Informacao da cama esta indisponivel para edicoes!');
+     }
+  }
+  
+  desalocarCama(cama: Cama): void {
+    //Lógica para desalocar a cama (remover associação com o leito)
+    cama.leitoID = undefined;
+    this.userService.UpdateCama(cama).subscribe(() => {
+      this.updateUserList();
+      this.showSuccessMessage('Cama desalocada com sucesso!');
+    });
+  }
+  
   async removeCama(cama: Cama): Promise<void> {
     if (!cama.status) {
       this.alreadyDeleted();
@@ -128,7 +150,7 @@ export class CamaViewTemplateComponent {
               }
             });
             this.router.navigate(['/InicioAdmin/Cama']);
-            this.showSuccessMessage();
+            this.showSuccessMessage('Data Deleted Successfully');
           },
           (error) => {
             console.error('Erro ao deletar Esp[ecialidades]:', error);
@@ -138,10 +160,10 @@ export class CamaViewTemplateComponent {
     }
   }
 
-  showSuccessMessage(): void {
+  showSuccessMessage(message: string): void {
     Swal.fire({
       icon: 'success',
-      title: 'Data Deleted Successfully',
+      title: message,
       showConfirmButton: false,
       timer: 2000
     });

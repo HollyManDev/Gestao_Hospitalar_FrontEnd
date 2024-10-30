@@ -1,58 +1,87 @@
-.main{
+.main {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    
-}
-
-.formulario{
+  }
+  
+  .formulario {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-}
-.input{
+  }
+  
+  .input {
     margin: 0.5rem;
     width: 300px;
-}
-h1{
+  }
+  
+  h1 {
     text-align: center;
     color: white;
     padding: 0.5rem;
-}
-.btn{
+  }
+  
+  .btn {
     background-color: white;
-}
-.divbtn{
-
+  }
+  
+  .divbtn {
     width: 300px;
-
     display: flex;
     justify-content: space-between;
-   
-}
-.icon{
-    color: #212121;
-}
-span{
-    width: 100%;
-   display: none;
-}
-.btn:hover{
+  }
+  
+  .btn:hover {
     background-color: #212121;
     color: white;
-    transition: 1s all  ease-in-out;
-    text-align: center;
-    
-    .icon{
-        display: none;
-        
+    transition: 1s all ease-in-out;
+  }
+  
+  .icon {
+    color: #212121;
+  }
+  
+  span {
+    width: 100%;
+    display: none;
+  }
+  
+  .btn:hover .icon {
+    display: none;
+  }
+  
+  .btn:hover span {
+    display: flex;
+  }
+  
+  .contato {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .input {
+    margin: 0.5rem;
+    width: 300px;
+  }
+  
+  @media (max-width: 768px) {
+    .formulario {
+      flex-direction: column;
     }
-    span{
-        display: flex;
-    }  
-}
+  
+    .input {
+      width: 100%;
+    }
+  
+    .divbtn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  

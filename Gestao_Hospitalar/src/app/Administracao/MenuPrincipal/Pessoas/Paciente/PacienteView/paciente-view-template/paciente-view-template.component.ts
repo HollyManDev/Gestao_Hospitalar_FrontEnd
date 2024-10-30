@@ -17,8 +17,7 @@ export class PacienteViewTemplateComponent implements OnInit {
   dataSource: MatTableDataSource<Paciente> = new MatTableDataSource<Paciente>([]);
   displayedColumns: string[] = [
     'pacienteID', 'nome', 'dataNascimento', 'sexo', 'endereco', 'telefone', 'email', 
-    'bi', 'contatoEmergenciaNome', 'contatoEmergenciaTelefone', 'contatoEmergenciaRelacao', 
-    'historicoMedico', 'seguro', 'leito', 'status', 'edit', 'remove'
+    'bi','historicoMedico', 'seguro', 'leito', 'status', 'edit', 'remove'
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -88,7 +87,8 @@ export class PacienteViewTemplateComponent implements OnInit {
 
   openModal(): void {
     const dialogRef = this.dialog.open(PacienteCrudTemplateComponent, {
-      width: '950px',
+      width: '960px',
+     
       disableClose: true
     });
 

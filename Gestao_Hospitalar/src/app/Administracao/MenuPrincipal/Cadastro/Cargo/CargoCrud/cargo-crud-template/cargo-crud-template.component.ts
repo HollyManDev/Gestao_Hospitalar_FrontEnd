@@ -67,6 +67,7 @@ export class CargoCrudTemplateComponent {
         );
              }
       } else {
+       
         this.userService.CreateCargo(cargoData).subscribe(
           (response) => {
             this.showSuccessMessage('Cargo created successfully!');

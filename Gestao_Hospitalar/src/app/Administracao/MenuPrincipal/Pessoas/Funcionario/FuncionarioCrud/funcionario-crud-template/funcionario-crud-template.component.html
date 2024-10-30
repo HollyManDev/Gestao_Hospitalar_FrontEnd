@@ -1,53 +1,93 @@
 <div class="main">
-    <h1>Funcionários</h1>
-    <form class="formulario" [formGroup]="funcionarioForm" (ngSubmit)="submit()">
-      <mat-form-field class="input">
-        <mat-label>Nome</mat-label>
-        <input matInput placeholder="Ex. João Silva" formControlName="nome" required>
-      </mat-form-field>
-  
-      <mat-form-field class="input">
-        <mat-label>Cargo</mat-label>
-        <input matInput placeholder="Ex. Médico" formControlName="cargo" required>
-      </mat-form-field>
-  
-      <mat-form-field class="input">
-        <mat-label>Telefone</mat-label>
-        <input matInput placeholder="Ex. (00) 00000-0000" formControlName="telefone" required>
-      </mat-form-field>
-  
-      <mat-form-field class="input">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Ex. joao.silva@example.com" formControlName="email" required>
-      </mat-form-field>
-  
-      <mat-form-field class="input">
-        <mat-label>Endereço</mat-label>
-        <input matInput placeholder="Ex. Rua Exemplo, 123" formControlName="endereco" required>
-      </mat-form-field>
-  
-      <mat-form-field class="input">
-        <mat-label>Data de Contratação</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="dataContratacao" required>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-  
-      <div class="divbtn">
-        <button mat-button class="btn" type="button" (click)="Close()">
-          <mat-icon class="icon">close</mat-icon>
-          <span>Sair</span>
+  <h1>Funcionários</h1>
+  <form class="formulario" [formGroup]="funcionarioForm" (ngSubmit)="submit()">
+    <mat-tab-group>
+      
+      <!-- Aba de Informações Pessoais -->
+      <mat-tab label="Informações Pessoais">
+        <mat-form-field class="input">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Ex. João Silva" formControlName="nome" required>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+          <mat-label>Departamento</mat-label>
+          <mat-select formControlName="departamento" >
+            <mat-option *ngFor="let dept of departamentos" [value]="dept.nome" (click) = "getDepartamentoId(dept)">
+              {{dept.nome }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+          <mat-label>Cargo</mat-label>
+          <mat-select formControlName="cargo" >
+            <mat-option *ngFor="let cargo of cargos" [value]="cargo.descricao" (click) = "getCargoId(cargo)">
+              {{cargo.descricao }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+          <mat-label>Gênero</mat-label>
+          <mat-select formControlName="genero" required>
+            <mat-option value="Masculino">Masculino</mat-option>
+            <mat-option value="Feminino">Feminino</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Ex. joao.silva@example.com" formControlName="email" required>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+          <mat-label>Endereço</mat-label>
+          <input matInput placeholder="Ex. Rua Exemplo, 123" formControlName="endereco" required>
+        </mat-form-field>
+
+        <mat-form-field class="input">
+          <mat-label>Data de Contratação</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dataContratacao" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </mat-tab>
+
+      <!-- Aba de Telefones -->
+      <mat-tab label="Telefones">
+        <div formArrayName="telefones">
+          <div *ngFor="let telefone of telefonesFormArray.controls; let i = index" [formGroupName]="i" class="input-group">
+            <mat-form-field class="input">
+              <mat-label>Telefone</mat-label>
+              <input matInput placeholder="Ex. (00) 00000-0000" formControlName="telefone" >
+            </mat-form-field>
+            <button mat-icon-button color="warn" (click)="removerTelefone(i)" type="button">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+        <button mat-mini-fab color="primary" (click)="addTelefone()" type="button">
+          <mat-icon>add</mat-icon>
         </button>
-        <button mat-button class="btn" type="submit">
-          <ng-container *ngIf="typeButton === 'Save'">
-            <mat-icon class="icon">save</mat-icon> 
-          </ng-container>
-          <ng-container *ngIf="typeButton === 'Add'">
-            <mat-icon class="icon">add</mat-icon> 
-          </ng-container>
-          <span>{{ typeButton }}</span>
-        </button>
-      </div>
-    </form>
-  </div>
-  
+      </mat-tab>
+    </mat-tab-group>
+
+    <!-- Botões de Ação -->
+   <div class="divbtn">
+      <button mat-button class="btn" type="button" (click)="Close()">
+        <mat-icon class="icon">close</mat-icon>
+        <span>Sair</span>
+      </button>
+      <button mat-button class="btn" type="submit">
+        <ng-container *ngIf="typeButton === 'Save'">
+          <mat-icon class="icon">save</mat-icon>
+        </ng-container>
+        <ng-container *ngIf="typeButton === 'Add'">
+          <mat-icon class="icon">add</mat-icon>
+        </ng-container>
+        <span>{{ typeButton }}</span>
+      </button>
+    </div>
+  </form>
+</div>

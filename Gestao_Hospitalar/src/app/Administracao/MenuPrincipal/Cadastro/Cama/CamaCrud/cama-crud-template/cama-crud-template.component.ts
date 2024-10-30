@@ -12,114 +12,156 @@ import Swal from 'sweetalert2';
   styleUrls: ['./cama-crud-template.component.scss']
 })
 export class CamaCrudTemplateComponent {
-
   action: string = '';
   camaEdition!: Cama;
   camaForm!: FormGroup;
   typeButton: string = '';
-  leitos: Leito[] = [];  
+  leitos: Leito[] = [];
   leitoId!: number;
-  leitoName: string = '';
+  isInputEnabled: boolean = true;
   constructor(
     private dialogRef: MatDialogRef<CamaCrudTemplateComponent>,
     private userService: UserServiceService
   ) {}
 
   ngOnInit(): void {
-
-    this.GetLeitos();
     this.action = this.userService.GetActionRequired();
     this.camaEdition = this.userService.GetCamaEdition();
-   
+    this.initializeForm();
+    this.GetLeitos();
   }
 
+  initializeForm(): void {
+   
+    if(this.camaEdition.leitoID){
+      this.camaForm = new FormGroup({
+        descricao: new FormControl(this.camaEdition?.descricao || '', [Validators.required]),
+        leito: new FormControl(this.getLeitoName(this.camaEdition?.leitoID), [Validators.required])
+      });
+    }else{
+       
+      
+      this.camaForm = new FormGroup({
+        descricao: new FormControl(this.camaEdition?.descricao || '', [Validators.required]),
+        leito: new FormControl('', [Validators.required])
+      });
+    }
+
+    this.typeButton = this.action === 'Edit' ? 'Save' : this.action === 'Add' ? 'Add' : 'Save';
+  }
+
+// initializeForm(): void {
+//     // Cria os controles do formulário
+//     const descricaoControl: FormControl = new FormControl(
+//       this.camaEdition?.descricao || '', 
+//       [Validators.required]
+//     );
+  
+//     let leitoControl: FormControl;
+  
+//     // Verifica se leitoID está presente
+//     if (this.camaEdition && this.camaEdition.leitoID) {
+//       leitoControl = new FormControl(this.getLeitoName(this.camaEdition.leitoID), [Validators.required]);
+//       // Desabilita o controle de descrição se estiver editando uma cama existente
+//       descricaoControl.disable();
+//     } else {
+//       leitoControl = new FormControl('', [Validators.required]);
+//     }
+  
+//     // Criação do FormGroup
+//     this.camaForm = new FormGroup({
+//       descricao: descricaoControl, // Control habilitado ou desabilitado
+//       leito: leitoControl // Control sempre habilitado
+//     });
+  
+//     // Define o tipo do botão
+//     this.typeButton = this.action === 'Edit' ? 'Save' : this.action === 'Add' ? 'Add' : 'Save';
+//   }
   
   GetLeitos(): void {
     this.userService.GetLeitos().subscribe(userData => {
       if (userData.data) {
         this.leitos = userData.data;
-        
-        if(this.camaEdition && this.leitos.length > 0){
-          this.leitoName = this.getLeitoName(this.camaEdition.leitoID);
+        if (this.camaEdition?.leitoID) {
+          this.camaForm.controls['leito'].setValue(this.getLeitoName(this.camaEdition.leitoID));
         }
-    
-        if (this.action === 'Edit') {
-          this.typeButton = 'Save'; 
-          this.camaForm = new FormGroup({
-            descricao: new FormControl(this.camaEdition.descricao, [Validators.required]),
-            leito: new FormControl(this.leitoName, [Validators.required]),
-          });
-        } else {
-          this.typeButton = 'Add';
-          this.initializeForm();
-        }
-
       }
-
-    });
-  }
-  initializeForm(): void {
-    this.camaForm = new FormGroup({
-      descricao: new FormControl('', [Validators.required]),
     });
   }
 
-  getLeitoId(leito: Leito): void{
-       
-       this.leitoId = leito.leitoID;
-       
+  getLeitoId(leito: Leito): void {
+    this.leitoId = leito.leitoID;
   }
 
-  getLeitoName(leitoId: number): string {  
-
-    const leitoName = this.leitos.find(l => l.leitoID === leitoId);
-    return leitoName ? leitoName.descricao : 'Unknown Leito';
-
+  getLeitoName(leitoId: number): string {
+    const leito = this.leitos.find(l => l.leitoID === leitoId);
+    return leito ? leito.descricao : 'Unknown Leito';
   }
 
   submit() {
-    if (this.camaForm.valid) {
-      const camaData: Cama = this.camaForm.value;
-      camaData.status = true;
-    
-
-      if (this.action === 'Edit') {
-        camaData.camaID = this.camaEdition.camaID;
-
-             if(camaData.descricao === this.camaEdition.descricao && camaData.leitoID === this.leitoId){
-                        
-              this.showErrorMessage('Cannot update, make sure you have changed one place at least!',);
-             }else{
-               
-              camaData.leitoID = this.leitoId;
-        this.userService.UpdateCama(camaData).subscribe(
-          (response) => {
-            this.showSuccessMessage('Bed updated successfully!');
-            this.dialogRef.close(true);
-            location.reload();
-          },
-          (error) => {
-            console.error('Error updating Bed:', error);
-          }
-        );
-             }
-      } else {
-        camaData.leitoID = this.leitoId;
-        this.userService.CreateCama(camaData).subscribe(
-          (response) => {
-            this.showSuccessMessage('Cama created successfully!');
-            this.dialogRef.close(true);
-            location.reload();
-          },
-          (error) => {
-            console.error('Error creating Cama:', error);
-          }
-        );
-      }
-    } else {
+    if (this.camaForm.invalid) {
       this.showErrorMessage('Please fill out all required fields.');
       this.camaForm.markAllAsTouched();
+      return;
     }
+
+    const camaData: Cama = { ...this.camaForm.value, status: true };
+    if (this.leitoId){
+      camaData.leitoID = this.leitoId;
+
+    } 
+    if (this.action === 'Edit') {
+      camaData.camaID = this.camaEdition.camaID;
+      this.handleUpdateCama(camaData);
+    } else if (this.action === 'Add') {
+      this.handleCreateCama(camaData);
+    } else if (this.action === 'Alocar') {
+      alert('alocando')
+      console.log('alocando', camaData)
+      this.handleAlocarCama(camaData);
+    }
+  }
+
+  handleUpdateCama(camaData: Cama) {
+    if (this.isUnchanged(camaData)) {
+      this.showErrorMessage('Cannot update, make sure you have changed at least one field!');
+      return;
+    }
+
+    this.userService.UpdateCama(camaData).subscribe(
+      () => this.showSuccessMessage('Bed updated successfully!'),
+      (error) => console.error('Error updating Bed:', error)
+    );
+    this.dialogRef.close(true);
+    location.reload();
+  }
+
+  handleCreateCama(camaData: Cama) {
+    this.userService.CreateCama(camaData).subscribe(
+      () => {
+        this.showSuccessMessage('Cama created successfully!');
+        this.dialogRef.close(true);
+        location.reload();
+      },
+      (error) => console.error('Error creating Cama:', error)
+    );
+  }
+
+  handleAlocarCama(camaData: Cama) {
+   
+    camaData.camaID = this.camaEdition.camaID;
+    camaData.leitoID = this.leitoId
+    this.userService.UpdateCama(camaData).subscribe(
+      () => this.showSuccessMessage('Cama Alocada com Sucesso!'),
+      (error) => console.error('Error allocating Bed:', error)
+     
+    );
+    this.dialogRef.close(true);
+      location.reload();
+  }
+
+  isUnchanged(camaData: Cama): boolean {
+    return camaData.descricao === this.camaEdition.descricao && camaData.leitoID === this.camaEdition.leitoID;
   }
 
   Close(): void {

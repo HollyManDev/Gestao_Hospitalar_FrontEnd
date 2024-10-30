@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 import { Funcionario } from 'src/app/Models/Funcionario';
 import { FuncCrudTemplateComponent } from '../../FuncionarioCrud/funcionario-crud-template/funcionario-crud-template.component';
 import { UserServiceService } from 'src/app/Service/user-service.service';
+import { Cargo } from 'src/app/Models/Cargo';
+import { Departamento } from 'src/app/Models/Departamento';
 
 @Component({
   selector: 'app-funcionario-view-template',
@@ -15,8 +17,10 @@ import { UserServiceService } from 'src/app/Service/user-service.service';
 })
 export class FuncionarioViewTemplateComponent implements OnInit {
   funcionarios: Funcionario[] = [];
+  cargos: Cargo[]=[]
+  departamentos: Departamento[]=[]
   dataSource: MatTableDataSource<Funcionario> = new MatTableDataSource<Funcionario>([]);
-  displayedColumns: string[] = ['funcionarioID', 'nome', 'cargo', 'telefone', 'email', 'endereco', 'dataContratacao', 'status', 'departamentoID', 'cargoID', 'edit', 'remove'];
+  displayedColumns: string[] = ['funcionarioID', 'nome', 'departamentoID', 'cargoID', 'telefone', 'email', 'endereco', 'dataContratacao', 'status',  'edit', 'remove'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -28,6 +32,8 @@ export class FuncionarioViewTemplateComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetFuncionarios();
+    this.GetCargos();
+    this.GetDepartamentos();
     this.updateUserList();
   }
 
@@ -35,15 +41,40 @@ export class FuncionarioViewTemplateComponent implements OnInit {
     this.userService.GetFuncionarios().subscribe(userData => {
       if (userData.data) {
         this.funcionarios = userData.data;
+        console.log(userData.data)
         this.updateUserList();
       }
     });
   }
 
+  GetCargos(): void {
+    this.userService.GetCargos().subscribe(userData => {
+      if (userData.data) {
+        this.cargos = userData.data;
+        
+      }
+    });
+  }
+  GetDepartamentos(): void {
+    this.userService.GetDepartamentos().subscribe(userData => {
+      if (userData.data) {
+        this.departamentos = userData.data;
+        
+      }
+    });
+  }
+
+  getCargoName(leitoId: number): string {  
+    const leitoName = this.cargos.find(l => l.cargoID === leitoId);
+    return leitoName ? leitoName.descricao : 'Sem Cargo';
+  }  
+  getDepartamentoName(leitoId: number): string {  
+    const leitoName = this.departamentos.find(l => l.departamentoID === leitoId);
+    return leitoName ? leitoName.nome : 'Sem Departamento';
+  }  
   openModal(): void {
     const dialogRef = this.dialog.open(FuncCrudTemplateComponent, {
-      height: '680px',
-      width: '30%',
+    
       disableClose: true,
     });
 

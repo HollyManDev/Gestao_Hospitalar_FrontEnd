@@ -5,12 +5,12 @@
 
         <mat-form-field class="input">
             <mat-label> Descricao</mat-label>
-            <input matInput placeholder="Ex. Cama Numero 3 tipo 2" formControlName = "descricao" required>
+            <input matInput placeholder="Ex. Cama Numero 3 tipo 2" formControlName = "descricao" required >
           </mat-form-field>
 
           <mat-form-field class="input">
             <mat-label>Leito</mat-label>
-            <mat-select formControlName="leito" required>
+            <mat-select formControlName="leito" >
               <mat-option *ngFor="let leito of leitos" [value]="leito.descricao" (click) = "getLeitoId(leito)">
                 {{leito.descricao }}
         

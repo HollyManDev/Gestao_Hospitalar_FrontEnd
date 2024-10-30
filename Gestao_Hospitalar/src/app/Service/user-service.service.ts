@@ -182,6 +182,8 @@ export class UserServiceService {
   }
 
   CreateCargo(cargo: Cargo) : Observable<Response<Cargo[]>> {
+    alert('no service')
+    console.log('dados, no service ', cargo)
     return this.http.post<Response<Cargo[]>>(`${this.apiUrl}Cargo`, cargo);
   }
 
@@ -199,6 +201,7 @@ export class UserServiceService {
   }
 
   CreatePaciente(paciente: Paciente) : Observable<Response<Paciente[]>> {
+    console.log(paciente)
     return this.http.post<Response<Paciente[]>>(`${this.apiUrl}Paciente`, paciente);
   }
 
