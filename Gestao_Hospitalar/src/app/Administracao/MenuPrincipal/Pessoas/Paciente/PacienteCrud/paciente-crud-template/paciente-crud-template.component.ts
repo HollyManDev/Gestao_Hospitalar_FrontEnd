@@ -142,7 +142,9 @@ export class PacienteCrudTemplateComponent {
   }
 
   Close(): void { 
+
     this.dialogRef.close('true');
+
   }
 
   showSuccessMessage() {

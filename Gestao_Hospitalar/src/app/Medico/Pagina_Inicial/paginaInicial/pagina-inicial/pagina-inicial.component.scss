@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .principal {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    transition: all 0.3s ease; /* Transição suave para todo o layout */
+    overflow-y: hidden;
+    
+  }
+  .navBar{
+    margin: 0.1rem;
+   
+  }
+   mat-toolbar{
+       width: 100%;
+       display: flex;
+       justify-content: space-between;
+  }
+  .ContainerEsquerdo {
+    width: 20rem;
+    height: 100%;
+    background-color:#4a4a4a;
+    transition: transform 0.3s ease; /* Transição suave */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .ContainerEsquerdo.hidden {
+    display: none; /* Oculta o menu esquerdo */
+  }
+  
+  .ContainerDireito {
+    height: 100%;
+    width: 100%; /* Inicialmente ocupa toda a largura */
+    background-color: white;
+    transition: width 0.3s ease; /* Transição suave para largura */
+   
+  }
+  
+  .ContainerDireito.expanded {
+    width: 100%; /* Quando o ContainerEsquerdo está visível */
+  }
+  .titulo{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+  
+  }
+  .nomeHospital{
+    width: 100%;
+    padding-top: 1rem;
+    text-align: center;
+    color: white;
+    font-size: 22pt;
+  }
+  .Menu_navegacaoEquerdo{
+  
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    
+  }
+  .panel-margin{
+     background-color:#4a4a4a;
+     width: 100%;
+     //box-shadow:  0 5px 9px #4a4a4a;
+    //border: solid 1px  #515151 ;
+  }
+  .btn{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding-left: 30px;
+   // box-shadow:  0 5px 9px #4a4a4a;
+    //border: solid 1px  #515151 ;
+  
+  }
+  .titleMatPanel{
+  
+    display: flex;
+    justify-content: start;
+  
+  }
+  .row{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+  }
+  .btn:focus{
+    background-color: #212121;
+    margin: 0.3rem;
+    width: 95%;
+  }
+  .matPanelButtons:focus{
+  
+    background-color: #212121;
+   
+  }

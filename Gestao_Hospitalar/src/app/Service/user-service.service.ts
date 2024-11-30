@@ -14,6 +14,10 @@ import { Equipamento } from '../Models/EquipamentoMedico';
 import { Cargo } from '../Models/Cargo';
 import { Paciente } from '../Models/Paciente';
 import { Funcionario } from '../Models/Funcionario';
+import { Outros } from '../Models/Outros';
+import { Agendamento } from '../Models/Agendamento';
+import { Consulta } from '../Models/Consulta';
+import { User } from '../Models/User';
 
 @Injectable({  
   providedIn: 'root'
@@ -34,10 +38,21 @@ export class UserServiceService {
   private cargo!: Cargo;
   private paciente!: Paciente;
   private funcionario!: Funcionario;
+  private agendamento!: Agendamento;
+  private consulta!: Consulta
+  private outro!: Outros;
 
   private apiUrl = `${environment.ApiUrl}`;
   
   constructor(private http: HttpClient) {}
+
+  //Login
+  AuthenticateUser(userCredentials: User): Observable<Response<User>> {
+
+   
+    return this.http.post<Response<User>>(`${this.apiUrl}login`, userCredentials);
+    
+  }
 
   // Métodos para Departamentos
   GetDepartamentos() : Observable<Response<Departamento[]>> {
@@ -182,8 +197,7 @@ export class UserServiceService {
   }
 
   CreateCargo(cargo: Cargo) : Observable<Response<Cargo[]>> {
-    alert('no service')
-    console.log('dados, no service ', cargo)
+   
     return this.http.post<Response<Cargo[]>>(`${this.apiUrl}Cargo`, cargo);
   }
 
@@ -212,9 +226,9 @@ export class UserServiceService {
   DeletePaciente(paciente: Paciente) : Observable<Response<Paciente[]>> {
     return this.http.put<Response<Paciente[]>>(`${this.apiUrl}Paciente/Inactivate`, paciente);
   }
-
-  //Metodos para Funcionario 
-  GetFuncionarios() : Observable<Response<Funcionario[]>> {
+  
+   //Metodos para Funcionario 
+   GetFuncionarios() : Observable<Response<Funcionario[]>> {
     return this.http.get<Response<Funcionario[]>>(`${this.apiUrl}Funcionario`);
   }
   CreateFuncionario(paciente: Funcionario) : Observable<Response<Funcionario[]>> {
@@ -229,6 +243,66 @@ export class UserServiceService {
     return this.http.put<Response<Funcionario[]>>(`${this.apiUrl}Funcionario/Inactivate`, paciente);
   }
 
+   //Metodos para Outros
+   GetOutros() : Observable<Response<Outros[]>> {
+    return this.http.get<Response<Outros[]>>(`${this.apiUrl}Outro`);
+  }
+  CreateOutro(paciente: Outros) : Observable<Response<Outros[]>> {
+    return this.http.post<Response<Outros[]>>(`${this.apiUrl}Outro`, paciente);
+  }
+
+  UpdateOutro(paciente:Outros) : Observable<Response<Outros[]>> {
+    return this.http.put<Response<Outros[]>>(`${this.apiUrl}Outro`, paciente);
+  }
+
+  DeleteOutro(paciente: Outros) : Observable<Response<Outros[]>> {
+    return this.http.put<Response<Outros[]>>(`${this.apiUrl}Outro/Inactivate`, paciente);
+  }
+
+  // Métodos para Agendamento
+  GetAgendamento() : Observable<Response<Agendamento[]>> {
+    return this.http.get<Response<Agendamento[]>>(`${this.apiUrl}Agendamento`);
+  }
+
+  CreateAgendamento(medico: Agendamento) : Observable<Response<Agendamento[]>> {
+    return this.http.post<Response<Agendamento[]>>(`${this.apiUrl}Agendamento`, medico);
+  }
+
+  UpdateAgendamento(medico: Agendamento) : Observable<Response<Agendamento[]>> {
+
+    return this.http.put<Response<Agendamento[]>>(`${this.apiUrl}Agendamento`, medico);
+  }
+
+  DeleteAgendamento(medico:Agendamento) : Observable<Response<Agendamento[]>> {
+    return this.http.put<Response<Agendamento[]>>(`${this.apiUrl}Agendamento/Inactivate`, medico);
+  }
+  GetAgendamentosByMedico(medicoId: number): Observable<Response<Agendamento[]>> {
+    
+    return this.http.get<Response<Agendamento[]>>(`${this.apiUrl}Agendamento/ByMedico/${medicoId}`);
+  }
+  
+
+  // Métodos para Consulta
+  GetConsulta() : Observable<Response<Consulta[]>> {
+    return this.http.get<Response<Consulta[]>>(`${this.apiUrl}Consulta`);
+  }
+
+  CreateConsulta(medico: Consulta) : Observable<Response<Consulta[]>> {
+    return this.http.post<Response<Consulta[]>>(`${this.apiUrl}Consulta`, medico);
+  }
+
+  UpdateConsulta(medico:Consulta) : Observable<Response<Consulta[]>> {
+    return this.http.put<Response<Consulta[]>>(`${this.apiUrl}Consulta`, medico);
+  }
+
+  DeleteConsulta(medico:Consulta) : Observable<Response<Consulta[]>> {
+    return this.http.put<Response<Consulta[]>>(`${this.apiUrl}Consulta/Inactivate`, medico);
+  }
+  GetConsultasByMedico(medicoId: number): Observable<Response<Consulta[]>> {
+    
+    return this.http.get<Response<Consulta[]>>(`${this.apiUrl}Consulta/ByMedico/${medicoId}`);
+  }
+
 
   // Métodos de controle de edição e ações
   SetActionRequired(actionreq: string): void {
@@ -237,6 +311,13 @@ export class UserServiceService {
   
   GetActionRequired(): string {
     return this.action;
+  }
+  SetUserAuthenticated(iduser: number): void {
+    this.idUSER = iduser;
+  }
+  
+  GetUserAuthenticated(): number{
+    return this.idUSER;
   }
 
   SetDepartmentEdition(depEdition: Departamento): void {
@@ -333,6 +414,31 @@ export class UserServiceService {
   GetFuncionarioEdition(): Funcionario{
     return this.funcionario;
   }
+    // Métodos para Outros
+    SetOutroEdition(outroEdition: Outros): void {
+      this.outro = outroEdition;
+    }
+    
+    GetOutroEdition(): Outros{
+      return this.outro;
+    }
+
+    SetAgendamentoEdition(depEdition: Agendamento): void {
+      this.agendamento = depEdition;
+    }
+    
+    GetAgendamentoEdition(): Agendamento{
+      return this.agendamento;
+    }
+    
+    SetConsultaEdition(depEdition: Consulta): void {
+      this.consulta = depEdition;
+    }
+    
+    GetConsultaEdition(): Consulta{
+      return this.consulta;
+    }
+
 
 }
 

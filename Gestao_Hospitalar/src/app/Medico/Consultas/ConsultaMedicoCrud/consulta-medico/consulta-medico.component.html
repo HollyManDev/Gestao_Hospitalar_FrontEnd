@@ -1,0 +1,54 @@
+<div class="main">
+    <h1>Consulta</h1>
+    <form class="formulario" [formGroup]="consultaForm" (ngSubmit)="submit()">
+      <mat-form-field class="input">
+        <mat-label>Data e Hora</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="dataHora" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field class="input">
+        <mat-label>Motivo</mat-label>
+        <textarea matInput placeholder="Motivo da consulta" formControlName="motivo"></textarea>
+      </mat-form-field>
+  
+      <mat-form-field class="input">
+        <mat-label>Paciente</mat-label>
+        <mat-select formControlName="pacienteID" required>
+          <mat-option *ngFor="let paciente of pacientes" [value]="paciente.nome" (click) = "getPacienteId(paciente)">
+            {{ paciente.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+     
+      <mat-form-field class="input">
+        <mat-label>Diagnóstico</mat-label>
+        <textarea matInput placeholder="Diagnóstico" formControlName="diagnostico"></textarea>
+      </mat-form-field>
+  
+      <mat-form-field class="input">
+        <mat-label>Tratamento Recomendado</mat-label>
+        <textarea matInput placeholder="Tratamento Recomendado" formControlName="tratamentoRecomendado"></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="input">
+        <mat-label>Observacoes</mat-label>
+        <textarea matInput placeholder="Observacoes" formControlName="observacoes"></textarea>
+      </mat-form-field>
+  
+      <div class="divbtn">
+        <button mat-button class="btn" type="button" (click)="Close()">
+          <mat-icon class="icon">close</mat-icon>
+          <span>Exit</span>
+        </button>
+  
+        <button mat-button class="btn" type="submit">
+          <mat-icon class="icon">{{ typeButton === 'Save' ? 'save' : 'add' }}</mat-icon>
+          <span>{{ typeButton }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+  

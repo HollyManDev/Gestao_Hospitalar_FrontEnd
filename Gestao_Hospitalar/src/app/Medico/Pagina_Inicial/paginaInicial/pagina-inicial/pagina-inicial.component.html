@@ -1,0 +1,89 @@
+<div class="principal">
+    <div class="ContainerEsquerdo" [ngClass]="{ 'hidden': !isLeftContainerVisible }">
+  
+      <!-- Conteúdo do Container Esquerdo -->
+       <div class="titulo"> 
+        <h1 class="nomeHospital"> Tobias Zucula Mphemo </h1>
+        <!--p class="descricaoHospital"> Saving lives according to poeple's faith!</p-->
+       </div>
+  
+       <div class="Menu_navegacaoEquerdo">
+  
+        <!-- Aqui terei o codigo referente aos botoes que permitem a navegacao no sistema -->
+  
+       
+          <button mat-button class="panel-margin  btn" routerLink="/InicioAdmin/Home">
+            <mat-icon>home</mat-icon> Home
+          </button>
+    
+          <button mat-button class="panel-margin btn" routerLink="/InicialMedico/ConsultasMedico">
+            <mat-icon>search</mat-icon> Consultas
+          </button>
+
+           <button mat-button class="panel-margin btn">
+            <mat-icon>receipt_long</mat-icon>Prescrições
+          </button>
+       
+          <button mat-button class="panel-margin btn">
+            <mat-icon>biotech</mat-icon> Exames
+          </button>
+
+          
+          <button mat-button class="panel-margin btn">
+            <mat-icon>history</mat-icon>  Historico Atendimento 
+
+          </button>
+  
+  
+        <mat-expansion-panel class="panel-margin">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>schedule</mat-icon> Agendamentos
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <button mat-button class="matPanelButtons" routerLink="/InicialMedico/AgendamentosMedico">
+              <mat-icon>event</mat-icon> Agendamentos
+            </button>
+            <button mat-button class="matPanelButtons">
+              <mat-icon>description</mat-icon> Relatório
+            </button>
+          </div>
+        </mat-expansion-panel>
+       </div>
+  
+    </div>
+  
+    <div class="ContainerDireito" [ngClass]="{ 'expanded': !isLeftContainerVisible }">
+  
+       <div class="navBar">
+        <mat-toolbar >
+          <button mat-icon-button (click)="toggleLeftContainer()" class="example-icon" aria-label="Toggle left container">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <!-- <span>Menu </span> -->
+          <span class="example-spacer"></span>
+  
+         <div class="div">
+                
+            <button mat-icon-button class="example-icon" aria-label="Share">
+              <mat-icon>share</mat-icon>
+            </button>
+            
+            <button mat-icon-button class="example-icon logout-icon" aria-label="logout" routerLink="/Login">
+              <mat-icon>logout</mat-icon>
+            </button>
+         </div>
+       
+    
+        </mat-toolbar>
+       </div>
+  
+      <!-- Conteúdo do Container Direito -->
+      <router-outlet></router-outlet>
+    </div>
+  
+  </div>
+   
+  
+  

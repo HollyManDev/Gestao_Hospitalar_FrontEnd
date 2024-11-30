@@ -1,0 +1,60 @@
+.MainTemplate{
+     
+    height: 100%;
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    
+    
+}
+
+ .btnAdd:hover{
+    
+    background-color: white;
+    color: #212121;
+    transition: 1s all  ease-in-out;
+    text-align: center;
+    
+    .imgStyle{
+        display: none;
+        
+    }
+    span{
+        display: flex;
+    }
+ 
+ 
+}
+
+.btnAdd{
+    width: 1rem;
+    display: flex;
+     margin-top: 1rem;
+     background-color: #212121;
+}
+.imgStyle{
+  
+    width: 30px;
+    height: 30px;
+}
+span{
+     width: 100%;
+    display: none;
+}
+
+table th{
+  
+      background-color: #212121;
+}
+
+
+.deletebtn {
+    color: rgb(199, 14, 14);
+  }
+
+  .editbtn{
+    color: white;
+  }
+  .inputSearch{
+    width: 20%;
+  }

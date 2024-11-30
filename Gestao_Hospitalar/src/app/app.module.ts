@@ -14,9 +14,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatDialogModule } from '@angular/material/dialog'; // Adicione isso
-import { MatTableModule } from '@angular/material/table'; // Certifique-se de incluir MatTable
-import { MatPaginatorModule } from '@angular/material/paginator'; // Certifique-se de incluir MatPaginator
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table'; 
+import { MatPaginatorModule } from '@angular/material/paginator'; 
 import { MatSelectModule } from '@angular/material/select';
 import { HomeTemplateComponent } from './Administracao/MenuPrincipal/Home/home-template/home-template.component';
 import { DeptViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Departamento/deptView/dept-view-template/dept-view-template.component';
@@ -35,7 +35,7 @@ import { MedicoViewTemplateComponent } from './Administracao/MenuPrincipal/Pesso
 import { MedicoCrudTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Medico/MedicoCrud/medico-crud-template/medico-crud-template.component';
 import { MedicamentoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Medicamento/MedicamentoView/medicamento-view-template/medicamento-view-template.component';
 import { MedicamentoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Medicamento/MedicoCrud/medicamento-crud-template/medicamento-crud-template.component';
-import { MatDatepickerModule } from '@angular/material/datepicker'; // Adicione isso
+import { MatDatepickerModule } from '@angular/material/datepicker'; 
 import { MatNativeDateModule } from '@angular/material/core';
 import { EquipamentoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Equipamento Medico/EquipamentoView/equipamento-view-template/equipamento-view-template.component';
 import { EquipamentoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Equipamento Medico/EquipamentoCrud/equipamento-crud-template/equipamento-crud-template.component';
@@ -47,6 +47,22 @@ import { CargoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadast
 import { CargoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoCrud/cargo-crud-template/cargo-crud-template.component'; // Adicione isso
 import { MatTabsModule } from '@angular/material/tabs';
 import { OutrosComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCadastros/outros/outros.component';
+import { OutrosViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCadastros/OutrosView/outros-view-template/outros-view-template.component';
+import { AngendamentoViewComponent } from './Administracao/Agendamento/Angedamento-View/angendamento-view/angendamento-view.component';
+import { AgendamentoCrudComponent } from './Administracao/Agendamento/Agendamento-Crud/agendamento-crud/agendamento-crud.component';
+import { ConsultaViewComponent } from './Administracao/Consulta/ConsultaView/consulta-view/consulta-view.component';
+import { ConsultaCrudComponent } from './Administracao/Consulta/ConsultaCrud/consulta-crud/consulta-crud.component';
+import { PaginaInicialComponent } from './Medico/Pagina_Inicial/paginaInicial/pagina-inicial/pagina-inicial.component';
+import { AgendaMedicoViewComponent } from './Medico/Agendamento/AgendamentosMedico/agenda-medico-view/agenda-medico-view.component';
+import { AgendaMedicoCrudComponent } from './Medico/Agendamento/AgendamentosMedico/agenda-medico-crud/agenda-medico-crud.component';
+import { ConsultaMedicoComponent } from './Medico/Consultas/ConsultaMedicoCrud/consulta-medico/consulta-medico.component';
+import { MedicoConsultasViewComponent } from './Medico/Consultas/Medicosconsultasview/medico-consultas-view/medico-consultas-view.component';
+import { ExameViewComponent } from './Medico/Exames/ExameView/exame-view/exame-view.component';
+import { ExameCrudComponent } from './Medico/Exames/ExameCrud/exame-crud/exame-crud.component';
+import { PrescricaoViewComponent } from './Medico/Prescricao/PrescricaoView/prescricao-view/prescricao-view.component';
+import { PrescricaoCrudComponent } from './Medico/Prescricao/PrescricaoCrud/prescricao-crud/prescricao-crud.component';
+import { HistoricoMedicoCrudComponent } from './Medico/Historico Medico/HistoricoMedico-Crud/historico-medico-crud/historico-medico-crud.component';
+import { HistoricomedicoViewComponent } from './Medico/Historico Medico/HistoricoMedicoView/historicomedico-view/historicomedico-view.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +93,22 @@ import { OutrosComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCa
     CargoViewTemplateComponent,
     CargoCrudTemplateComponent,
     OutrosComponent,
+    OutrosViewTemplateComponent,
+    AngendamentoViewComponent,
+    AgendamentoCrudComponent,
+    ConsultaViewComponent,
+    ConsultaCrudComponent,
+    PaginaInicialComponent,
+    AgendaMedicoViewComponent,
+    AgendaMedicoCrudComponent,
+    ConsultaMedicoComponent,
+    MedicoConsultasViewComponent,
+    ExameViewComponent,
+    ExameCrudComponent,
+    PrescricaoViewComponent,
+    PrescricaoCrudComponent,
+    HistoricoMedicoCrudComponent,
+    HistoricomedicoViewComponent,
     
   ],
   imports: [
@@ -93,12 +125,12 @@ import { OutrosComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCa
     MatFormFieldModule,
     MatExpansionModule,
     HttpClientModule,
-    MatDialogModule, // Certifique-se de que isso está aqui
-    MatTableModule, // Também deve estar aqui
-    MatPaginatorModule, // E isso aqui
+    MatDialogModule, 
+    MatTableModule, 
+    MatPaginatorModule, 
     ReactiveFormsModule,
     MatSelectModule,
-    MatDatepickerModule, // Adicione aqui
+    MatDatepickerModule, 
     MatNativeDateModule,
     MatTabsModule,
   ],

@@ -1,1 +1,45 @@
-<p>login-template works!</p>
+
+<div class="loginMain">
+
+    <div class="loginLogo">
+      <!-- <img src="assets/Images/" alt="" style="width: 100%; height: 80%;"> --> 
+     
+    </div>
+
+    <div class="loginTemplate">
+
+        <form class="FormLogin" [formGroup] = "userForm" (ngSubmit) = "submit()" #formDit = "ngForm" >
+              
+            <p class="headerLogin"> Sign In</p>
+
+            <div class="FormLogin ">
+ 
+                <mat-form-field appearance="fill" class="inputLogin">
+
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" placeholder="ex: Djambless@gmaill.com" formControlName = "email" required >
+                 
+                </mat-form-field>
+                  
+                  <mat-form-field appearance="fill" class="inputLogin">
+
+                    <mat-label>Senha</mat-label>
+                    <input matInput type="password" placeholder="ex: watara" formControlName = "password" required >
+                  
+                  </mat-form-field>
+                  
+                  <button mat-raised-button class= " buttonLoginForm"  type="submit">
+
+                    <img src="assets/Images/login.png" alt="" class="imgStyle">
+                    <span > Login </span>
+                  </button>
+                  
+                
+
+            </div>
+
+        </form>
+           
+    </div>
+
+</div>
