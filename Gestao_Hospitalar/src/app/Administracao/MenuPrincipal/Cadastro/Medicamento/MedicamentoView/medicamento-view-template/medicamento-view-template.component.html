@@ -18,23 +18,43 @@
         <td mat-cell *matCellDef="let medicamento">{{ medicamento.medicamentoID }}</td>
       </ng-container>
   
-      <!-- Coluna Nome -->
-      <ng-container matColumnDef="Nome">
-        <th mat-header-cell *matHeaderCellDef>Nome</th>
-        <td mat-cell *matCellDef="let medicamento">{{ medicamento.nome }}</td>
-      </ng-container>
+<!-- Coluna Produto -->
+<ng-container matColumnDef="Produto">
+  <th mat-header-cell *matHeaderCellDef>Produto</th>
+  <td mat-cell *matCellDef="let medicamento">{{ medicamento.produto }}</td>
+</ng-container>
+
   
       <!-- Coluna Quantidade -->
       <ng-container matColumnDef="Quantidade">
         <th mat-header-cell *matHeaderCellDef>Quantidade</th>
         <td mat-cell *matCellDef="let medicamento">{{ medicamento.quantidade }}</td>
       </ng-container>
+
+  <!-- Coluna Data de Emissão -->
+<ng-container matColumnDef="DataEmissao">
+  <th mat-header-cell *matHeaderCellDef>Data de Emissão</th>
+  <td mat-cell *matCellDef="let medicamento">{{ medicamento.dataEmissao | date }}</td>
+</ng-container>
+
+  <!-- Coluna Data de Validade -->
+  <ng-container matColumnDef="DataValidade">
+    <th mat-header-cell *matHeaderCellDef>Data de Validade</th>
+    <td mat-cell *matCellDef="let medicamento">{{ medicamento.dataValidade | date }}</td>
+  </ng-container>
   
-      <!-- Coluna Data de Validade -->
-      <ng-container matColumnDef="DataValidade">
-        <th mat-header-cell *matHeaderCellDef>Data de Validade</th>
-        <td mat-cell *matCellDef="let medicamento">{{ medicamento.dataValidade | date }}</td>
-      </ng-container>
+<!-- Coluna Lote -->
+<ng-container matColumnDef="Lote">
+  <th mat-header-cell *matHeaderCellDef>Lote</th>
+  <td mat-cell *matCellDef="let medicamento">{{ medicamento.lote }}</td>
+</ng-container>
+
+<!-- Coluna Centro de Custo -->
+<ng-container matColumnDef="CentroDeCusto">
+  <th mat-header-cell *matHeaderCellDef>Centro de Custo</th>
+  <td mat-cell *matCellDef="let medicamento">{{ medicamento.centroDeCusto }}</td>
+</ng-container>
+   
   
       <!-- Coluna Fornecedor -->
       <ng-container matColumnDef="Fornecedor">

@@ -46,8 +46,6 @@ import { FuncCrudTemplateComponent } from './Administracao/MenuPrincipal/Pessoas
 import { CargoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoView/cargo-view-template/cargo-view-template.component';
 import { CargoCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoCrud/cargo-crud-template/cargo-crud-template.component'; // Adicione isso
 import { MatTabsModule } from '@angular/material/tabs';
-import { OutrosComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCadastros/outros/outros.component';
-import { OutrosViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCadastros/OutrosView/outros-view-template/outros-view-template.component';
 import { AngendamentoViewComponent } from './Administracao/Agendamento/Angedamento-View/angendamento-view/angendamento-view.component';
 import { AgendamentoCrudComponent } from './Administracao/Agendamento/Agendamento-Crud/agendamento-crud/agendamento-crud.component';
 import { ConsultaViewComponent } from './Administracao/Consulta/ConsultaView/consulta-view/consulta-view.component';
@@ -63,6 +61,11 @@ import { PrescricaoViewComponent } from './Medico/Prescricao/PrescricaoView/pres
 import { PrescricaoCrudComponent } from './Medico/Prescricao/PrescricaoCrud/prescricao-crud/prescricao-crud.component';
 import { HistoricoMedicoCrudComponent } from './Medico/Historico Medico/HistoricoMedico-Crud/historico-medico-crud/historico-medico-crud.component';
 import { HistoricomedicoViewComponent } from './Medico/Historico Medico/HistoricoMedicoView/historicomedico-view/historicomedico-view.component';
+import { ProdutosViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Produtos/ProdutosView/produtos-view-template/produtos-view-template.component';
+import { ProdutosCrudTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Produtos/ProdutosCrud/produtos-crud-template/produtos-crud-template.component';
+import { OutroscadastrosViewTemplateComponent } from './Administracao/Outros_Cadastros_admin/Outros_Cadastros_View/outroscadastros-view-template/outroscadastros-view-template.component';
+import { OutroscadastrosCrudTemplateComponent } from './Administracao/Outros_Cadastros_admin/Outros_Cadastros_Crud/outroscadastros-crud-template/outroscadastros-crud-template.component';
+
 
 @NgModule({
   declarations: [
@@ -92,8 +95,6 @@ import { HistoricomedicoViewComponent } from './Medico/Historico Medico/Historic
     FuncCrudTemplateComponent,
     CargoViewTemplateComponent,
     CargoCrudTemplateComponent,
-    OutrosComponent,
-    OutrosViewTemplateComponent,
     AngendamentoViewComponent,
     AgendamentoCrudComponent,
     ConsultaViewComponent,
@@ -109,6 +110,11 @@ import { HistoricomedicoViewComponent } from './Medico/Historico Medico/Historic
     PrescricaoCrudComponent,
     HistoricoMedicoCrudComponent,
     HistoricomedicoViewComponent,
+    ProdutosViewTemplateComponent,
+    ProdutosCrudTemplateComponent,
+    OutroscadastrosViewTemplateComponent,
+    OutroscadastrosCrudTemplateComponent,
+
     
   ],
   imports: [

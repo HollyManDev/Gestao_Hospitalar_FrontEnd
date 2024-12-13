@@ -14,13 +14,17 @@ import { EquipamentoViewTemplateComponent } from './Administracao/MenuPrincipal/
 import { PacienteViewTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Paciente/PacienteView/paciente-view-template/paciente-view-template.component';
 import { CargoViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Cargo/CargoView/cargo-view-template/cargo-view-template.component';
 import { FuncionarioViewTemplateComponent } from './Administracao/MenuPrincipal/Pessoas/Funcionario/FuncionarioView/funcionario-view-template/funcionario-view-template.component';
-import { OutrosComponent } from './Administracao/MenuPrincipal/Cadastro/OutrosCadastros/outros/outros.component';
 import { AngendamentoViewComponent } from './Administracao/Agendamento/Angedamento-View/angendamento-view/angendamento-view.component';
 import { ConsultaViewComponent } from './Administracao/Consulta/ConsultaView/consulta-view/consulta-view.component';
 import { PaginaInicialComponent } from './Medico/Pagina_Inicial/paginaInicial/pagina-inicial/pagina-inicial.component';
 import { AgendaMedicoViewComponent } from './Medico/Agendamento/AgendamentosMedico/agenda-medico-view/agenda-medico-view.component';
 import { ConsultaMedicoComponent } from './Medico/Consultas/ConsultaMedicoCrud/consulta-medico/consulta-medico.component';
 import { MedicoConsultasViewComponent } from './Medico/Consultas/Medicosconsultasview/medico-consultas-view/medico-consultas-view.component';
+import { ExameViewComponent } from './Medico/Exames/ExameView/exame-view/exame-view.component';
+import { PrescricaoViewComponent } from './Medico/Prescricao/PrescricaoView/prescricao-view/prescricao-view.component';
+import { HistoricomedicoViewComponent } from './Medico/Historico Medico/HistoricoMedicoView/historicomedico-view/historicomedico-view.component';
+import { ProdutosViewTemplateComponent } from './Administracao/MenuPrincipal/Cadastro/Produtos/ProdutosView/produtos-view-template/produtos-view-template.component';
+import { OutroscadastrosViewTemplateComponent } from './Administracao/Outros_Cadastros_admin/Outros_Cadastros_View/outroscadastros-view-template/outroscadastros-view-template.component';
 
 
 const routes: Routes = [
@@ -44,15 +48,21 @@ const routes: Routes = [
       { path: 'Equipamento', component: EquipamentoViewTemplateComponent }, 
       { path: 'Paciente', component: PacienteViewTemplateComponent }, 
        { path: 'Funcionario', component: FuncionarioViewTemplateComponent }, 
-       { path: 'Outros', component: OutrosComponent }, 
+       { path: 'Outros', component:OutroscadastrosViewTemplateComponent }, 
        { path: 'Agendamento', component: AngendamentoViewComponent }, 
        { path: 'Consulta', component: ConsultaViewComponent}, 
+       { path: 'Produtos', component: ProdutosViewTemplateComponent}, 
     ]
   },
   { path: 'InicialMedico', component:PaginaInicialComponent,
     children: [
       { path: 'AgendamentosMedico', component: AgendaMedicoViewComponent },
       { path: 'ConsultasMedico', component: MedicoConsultasViewComponent},
+      { path: 'ExamesMedico', component: ExameViewComponent},
+      { path: 'PrescricoesMedicas', component: PrescricaoViewComponent},
+      { path: 'HistoricoMedico', component: HistoricomedicoViewComponent},
+      
+
     ]
   }, 
 ];

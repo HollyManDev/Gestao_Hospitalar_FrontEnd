@@ -52,7 +52,7 @@ export class AgendaMedicoViewComponent {
  GetAgendamentos(): void {
   this.medicoId = this.userService.GetUserAuthenticated();
       
-       if(this.medicoId){
+      if(this.medicoId){
         this.userService.GetAgendamentosByMedico(this.medicoId).subscribe(userData => {
     
           if(userData.data){

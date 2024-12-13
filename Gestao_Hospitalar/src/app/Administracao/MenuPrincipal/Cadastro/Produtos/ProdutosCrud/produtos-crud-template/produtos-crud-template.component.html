@@ -1,0 +1,72 @@
+<div class="main">
+    <h1>Produto</h1>
+    <form class="formulario" [formGroup]="produtoForm" (ngSubmit)="submit()">
+      <mat-form-field class="input">
+        <mat-label>Descrição</mat-label>
+        <input matInput placeholder="Ex. Produto ABC" formControlName="descricao" required>
+      </mat-form-field>
+  
+      <mat-form-field class="input">
+        <mat-label>Família</mat-label>
+        <mat-select formControlName="familia">
+          <mat-option *ngFor="let familia of familias" [value]="familia.nome" (click) = "getFamiliaId(familia)">
+            {{ familia.nome }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field class="input">
+        <mat-label>Sub Família</mat-label>
+        <mat-select formControlName="subfamilia">
+
+          <mat-option *ngFor="let subfamilia of subfamilias" [value]="subfamilia.nome" (click) = "getSubFamiliaId(subfamilia)">
+            {{ subfamilia.nome }}
+          </mat-option>
+
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field class="input">
+        <mat-label>Unidade de Entrada</mat-label>
+
+        <mat-select formControlName="unidadeEntrada">
+
+          <mat-option *ngFor="let entrada of unidadeEntrada" [value]=" entrada.nome" (click) = "getUnidadeEntradaId(entrada)">
+            {{  entrada.nome }}
+          </mat-option>
+
+        </mat-select>
+          
+      </mat-form-field>
+  
+      <mat-form-field class="input">
+        <mat-label>Unidade de Saída</mat-label>
+        <mat-select formControlName="unidadeSaida">
+
+          <mat-option *ngFor="let saida of unidadeEntrada" [value]=" saida.nome" (click) = "getUnidadeSaidaId(saida)">
+            {{  saida.nome }}
+          </mat-option>
+
+        </mat-select>
+          
+      </mat-form-field>
+  
+      <div class="divbtn">
+        <button mat-button class="btn" type="button" (click)="close()">
+          <mat-icon class="icon">close</mat-icon>
+          <span>Exit</span>
+        </button>
+  
+        <button mat-button class="btn" type="submit">
+          <ng-container *ngIf="typeButton === 'Save'">
+            <mat-icon class="icon">save</mat-icon>
+          </ng-container>
+          <ng-container *ngIf="typeButton === 'Add'">
+            <mat-icon class="icon">add</mat-icon>
+          </ng-container>
+          <span>{{ typeButton }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+  

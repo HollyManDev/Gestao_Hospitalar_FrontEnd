@@ -18,7 +18,20 @@ export class MedicamentoViewTemplateComponent implements OnInit {
   medicamentos: Medicamento[] = [];
   fornecedor: Fornecedor[] = [];
   dataSource: MatTableDataSource<Medicamento> = new MatTableDataSource<Medicamento>([]);
-  displayedColumns: string[] = ['Id', 'Nome', 'Quantidade', 'DataValidade', 'Fornecedor', 'Status', 'Edit', 'Remove'];
+  displayedColumns: string[] = [
+    'Id',
+    'Produto',
+    'Quantidade',
+    'DataEmissao',
+    'DataValidade',
+    'Lote',
+    'CentroDeCusto',
+    'Fornecedor',
+    'Status',
+    'Edit',
+    'Remove'
+  ];
+  
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -52,7 +65,7 @@ export class MedicamentoViewTemplateComponent implements OnInit {
 
   openModal(): void {
     const dialogRef = this.dialog.open(MedicamentoCrudTemplateComponent, {
-      height: '490px',
+      height: '600px',
       width: '400px',
       disableClose: true,
     });
@@ -72,7 +85,7 @@ export class MedicamentoViewTemplateComponent implements OnInit {
     // Se o filtro não estiver vazio, faz o filtro
     if (value) {
       this.dataSource.filterPredicate = (data: Medicamento, filter: string) => {
-        return data.nome.toLowerCase().includes(filter);
+        return data.produto.toLowerCase().includes(filter);
       };
     } else {
       // Se o valor de filtro estiver vazio, mostra todos os dados

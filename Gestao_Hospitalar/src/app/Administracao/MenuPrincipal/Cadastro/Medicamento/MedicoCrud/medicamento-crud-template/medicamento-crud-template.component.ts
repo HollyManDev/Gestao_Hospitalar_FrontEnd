@@ -5,6 +5,7 @@ import { Medicamento } from 'src/app/Models/Medicamento';
 import { Fornecedor } from 'src/app/Models/Fornecedor'; // Importando a interface do Fornecedor
 import { UserServiceService } from 'src/app/Service/user-service.service';
 import Swal from 'sweetalert2';
+import { Produto } from 'src/app/Models/Produto';
 
 @Component({
   selector: 'app-medicamento-crud-template',
@@ -17,8 +18,14 @@ export class MedicamentoCrudTemplateComponent implements OnInit {
   medicamentoEdition!: Medicamento;
   medicamentoForm!: FormGroup;
   typeButton: string = '';
-  fornecedores: Fornecedor[] = [];  
+  fornecedores: Fornecedor[] = [];
   fornecedorId!: number;
+  produtos: Produto[] = [];
+  produtoId!: number;
+  entidades: Produto[] = [];
+  entidadeId!: number;
+  centrodeCusto: Produto[] = [];
+  centrodeCustoId!: number;
   fornecedorName: string = '';
 
   constructor(
@@ -31,7 +38,6 @@ export class MedicamentoCrudTemplateComponent implements OnInit {
     this.initializeForm();
     this.GetFornecedores();
     this.action = this.userService.GetActionRequired();
-   
   }
 
   GetFornecedores(): void {
@@ -41,16 +47,18 @@ export class MedicamentoCrudTemplateComponent implements OnInit {
 
         if (this.action === 'Edit') {
           this.typeButton = 'Save';
-    
+
           this.fornecedorName = this.getFornecedorName(this.medicamentoEdition.fornecedorID);
-          
+
           this.medicamentoForm = new FormGroup({
-            nome: new FormControl(this.medicamentoEdition.nome, [Validators.required]),
+            produto: new FormControl(this.medicamentoEdition.produto, [Validators.required]),
             quantidade: new FormControl(this.medicamentoEdition.quantidade, [Validators.required]),
+            dataEmissao: new FormControl(this.medicamentoEdition.dataEmissao, [Validators.required]),
             dataValidade: new FormControl(this.medicamentoEdition.dataValidade, [Validators.required]),
+            lote: new FormControl(this.medicamentoEdition.lote, [Validators.required]),
+            centroDeCusto: new FormControl(this.medicamentoEdition.centroDeCusto, [Validators.required]),
             fornecedor: new FormControl(this.fornecedorName, [Validators.required]),
           });
-          console.log(this.medicamentoEdition)
         } else {
           this.typeButton = 'Add';
           this.initializeForm();
@@ -61,48 +69,51 @@ export class MedicamentoCrudTemplateComponent implements OnInit {
 
   initializeForm(): void {
     this.medicamentoForm = new FormGroup({
-      nome: new FormControl('', [Validators.required]),
+      produto: new FormControl('', [Validators.required]),
       quantidade: new FormControl('', [Validators.required]),
+      dataEmissao: new FormControl('', [Validators.required]),
       dataValidade: new FormControl('', [Validators.required]),
-      fornecedor: new FormControl('', [Validators.required]), // Pode ser alterado para fornecedorid se necessário
+      lote: new FormControl('', [Validators.required]),
+      centroDeCusto: new FormControl('', [Validators.required]),
+      fornecedor: new FormControl('', [Validators.required]),
     });
   }
 
-  getFornecedorId(forn: Fornecedor): void{
-       
+  getFornecedorId(forn: Fornecedor): void {
     this.fornecedorId = forn.fornecedorID;
-    
-}
+  }
 
-getFornecedorName(fornId: number): string {  
-
- const fornName = this.fornecedores.find(l => l.fornecedorID === fornId);
- return fornName ? fornName.nome : 'Unknown forn';
-
-}
-
+  getFornecedorName(fornId: number): string {
+    const fornName = this.fornecedores.find(l => l.fornecedorID === fornId);
+    return fornName ? fornName.nome : 'Unknown forn';
+  }
 
   submit() {
     if (this.medicamentoForm.valid) {
       const medicamentoData: Medicamento = {
         ...this.medicamentoForm.value,
-        fornecedorid: this.fornecedorId // Use fornecedorid aqui
+        fornecedorid: this.fornecedorId,
       };
 
       if (this.action === 'Edit') {
-        medicamentoData.medicamentoID = this.medicamentoEdition.medicamentoID; // Altere para medicamentoid
+        medicamentoData.medicamentoID = this.medicamentoEdition.medicamentoID;
 
-        if (medicamentoData.nome === this.medicamentoEdition.nome && 
-            medicamentoData.quantidade === this.medicamentoEdition.quantidade && 
-            medicamentoData.dataValidade === this.medicamentoEdition.dataValidade) {
+        if (
+          medicamentoData.produto === this.medicamentoEdition.produto &&
+          medicamentoData.quantidade === this.medicamentoEdition.quantidade &&
+          medicamentoData.dataEmissao === this.medicamentoEdition.dataEmissao &&
+          medicamentoData.dataValidade === this.medicamentoEdition.dataValidade &&
+          medicamentoData.lote === this.medicamentoEdition.lote &&
+          medicamentoData.centroDeCusto === this.medicamentoEdition.centroDeCusto 
+         
+        ) {
           this.showErrorMessage('Cannot update, make sure you have changed one field at least!');
         } else {
-          
           medicamentoData.fornecedorID = this.medicamentoEdition.fornecedorID;
           medicamentoData.status = this.medicamentoEdition.status;
 
           this.userService.UpdateMedicamento(medicamentoData).subscribe(
-            (response) => {
+            () => {
               this.showSuccessMessage('Medicamento updated successfully!');
               this.dialogRef.close(true);
               location.reload();
@@ -114,7 +125,7 @@ getFornecedorName(fornId: number): string {
         }
       } else {
         this.userService.CreateMedicamento(medicamentoData).subscribe(
-          (response) => {
+          () => {
             this.showSuccessMessage('Medicamento created successfully!');
             this.dialogRef.close(true);
             location.reload();

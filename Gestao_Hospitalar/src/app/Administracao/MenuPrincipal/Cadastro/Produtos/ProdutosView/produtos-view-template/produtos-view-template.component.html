@@ -1,0 +1,78 @@
+<div class="MainTemplate">
+    <div style="width: 100%; display: flex; justify-content: space-between;">
+      <button mat-raised-button color="" (click)="addProduto()" class="btnAdd">
+        <img src="assets/Images/add.png" alt="" class="imgStyle">
+        <span>Add</span>
+      </button>
+  
+      <mat-form-field appearance="outline" class="inputSearch" (input)="search($event)">
+        <mat-label style="color: #212121;">Pesquisar</mat-label>
+        <input matInput type="search" placeholder="ex: Produto A" style="color: black;">
+      </mat-form-field>
+    </div>
+  
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Referência Column -->
+      <ng-container matColumnDef="Referencia">
+        <th mat-header-cell *matHeaderCellDef> Referência </th>
+        <td mat-cell *matCellDef="let produto">{{ produto.referencia }}</td>
+      </ng-container>
+  
+      <!-- Descrição Column -->
+      <ng-container matColumnDef="Descricao">
+        <th mat-header-cell *matHeaderCellDef> Descrição </th>
+        <td mat-cell *matCellDef="let produto">{{ produto.descricao }}</td>
+      </ng-container>
+  
+      <!-- Família Column -->
+      <ng-container matColumnDef="Familia">
+        <th mat-header-cell *matHeaderCellDef> Família </th>
+        <td mat-cell *matCellDef="let produto">{{getFamiliaName( produto.familia )}}</td>
+      </ng-container>
+  
+      <!-- Subfamília Column -->
+      <ng-container matColumnDef="Subfamilia">
+        <th mat-header-cell *matHeaderCellDef> Subfamília </th>
+        <td mat-cell *matCellDef="let produto">{{ getSubFamiliaName( produto.subfamilia )}}</td>
+      </ng-container>
+  
+      <!-- Unidade Entrada Column -->
+      <ng-container matColumnDef="UnidadeEntrada">
+        <th mat-header-cell *matHeaderCellDef> Unidade Entrada </th>
+        <td mat-cell *matCellDef="let produto">{{getUnidadeEntrada(  produto.unidadeEntrada ) }}</td>
+      </ng-container>
+  
+      <!-- Unidade Saída Column -->
+      <ng-container matColumnDef="UnidadeSaida">
+        <th mat-header-cell *matHeaderCellDef> Unidade Saída </th>
+        <td mat-cell *matCellDef="let produto">{{ getUnidadeSaida(  produto.unidadeSaida )}}</td>
+      </ng-container>
+  
+      <!-- Edit Column -->
+      <ng-container matColumnDef="Edit">
+        <th mat-header-cell *matHeaderCellDef> Editar </th>
+        <td mat-cell *matCellDef="let produto">
+          <button mat-icon-button color="primary" (click)="editProduto(produto)" class="editbtn">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <!-- Remove Column -->
+      <ng-container matColumnDef="Remove">
+        <th mat-header-cell *matHeaderCellDef> Remover </th>
+        <td mat-cell *matCellDef="let produto">
+          <button mat-icon-button color="warn" (click)="removeProduto(produto)" class="deletebtn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" style="color: white;"></tr>
+      <tr mat-row *matRowDef="let produto; columns: displayedColumns;"></tr>
+    </table>
+  
+    <!-- Paginação -->
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  

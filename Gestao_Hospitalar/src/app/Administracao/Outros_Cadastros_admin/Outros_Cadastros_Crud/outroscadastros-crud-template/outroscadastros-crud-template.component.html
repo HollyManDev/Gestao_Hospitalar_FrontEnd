@@ -1,11 +1,15 @@
 <div class="main">
 
-    <h1>Cargo</h1>
+    <h1>Outros Cadastros</h1>
     <form class="formulario" [formGroup] = "outrosForm" (ngSubmit) = "submit()">
    
       <mat-form-field class="input">
         <mat-label>Categoria</mat-label>
         <mat-select formControlName="categoria" required>
+          <mat-option value="familia">Familia</mat-option>
+          <mat-option value="subFamilia">Sub Familia</mat-option>
+          <mat-option value="unidadeEntrada">Unidade de Entrada</mat-option>
+          <mat-option value="unidadeSaida">Unidade de Saida</mat-option>
           <mat-option value="Andar">Andar</mat-option>
           <mat-option value="Corredor">Corredor</mat-option>
           <mat-option value="Porta">Porta</mat-option>
@@ -14,7 +18,7 @@
 
         <mat-form-field class="input">
             <mat-label> Descricao</mat-label>
-            <input matInput placeholder="Ex. Zelador" formControlName = "descricao" required>
+            <input matInput placeholder="Ex. Antibiotico" formControlName = "descricao" required>
           </mat-form-field>
        
           <div class="divbtn">

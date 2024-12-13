@@ -18,6 +18,7 @@ import { Outros } from '../Models/Outros';
 import { Agendamento } from '../Models/Agendamento';
 import { Consulta } from '../Models/Consulta';
 import { User } from '../Models/User';
+import { Produto } from '../Models/Produto';
 
 @Injectable({  
   providedIn: 'root'
@@ -41,6 +42,7 @@ export class UserServiceService {
   private agendamento!: Agendamento;
   private consulta!: Consulta
   private outro!: Outros;
+  private produto!:Produto;
 
   private apiUrl = `${environment.ApiUrl}`;
   
@@ -304,6 +306,23 @@ export class UserServiceService {
   }
 
 
+  // Métodos para Produto
+GetProdutos() : Observable<Response<Produto[]>> {
+  return this.http.get<Response<Produto[]>>(`${this.apiUrl}Produto`);
+}
+
+CreateProduto(produto: Produto) : Observable<Response<Produto[]>> {
+  return this.http.post<Response<Produto[]>>(`${this.apiUrl}Produto`, produto);
+}
+
+UpdateProduto(produto: Produto) : Observable<Response<Produto[]>> {
+  return this.http.put<Response<Produto[]>>(`${this.apiUrl}Produto`, produto);
+}
+
+DeleteProduto(produto: Produto) : Observable<Response<Produto[]>> {
+  return this.http.put<Response<Produto[]>>(`${this.apiUrl}Produto/Inactivate`, produto);
+}
+
   // Métodos de controle de edição e ações
   SetActionRequired(actionreq: string): void {
     this.action = actionreq;
@@ -438,7 +457,13 @@ export class UserServiceService {
     GetConsultaEdition(): Consulta{
       return this.consulta;
     }
-
+    SetProdutoEdition(depEdition: Produto): void {
+      this.produto = depEdition;
+    }
+    
+    GetProdutoEdition(): Produto{
+      return this.produto;
+    }
 
 }
 

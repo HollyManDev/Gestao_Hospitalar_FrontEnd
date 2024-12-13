@@ -4,22 +4,20 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Outros } from 'src/app/Models/Outros';
 import { UserServiceService } from 'src/app/Service/user-service.service';
 import Swal from 'sweetalert2';
-import { CargoCrudTemplateComponent } from '../../Cargo/CargoCrud/cargo-crud-template/cargo-crud-template.component';
 
 @Component({
-  selector: 'app-outros',
-  templateUrl: './outros.component.html',
-  styleUrls: ['./outros.component.scss']
+  selector: 'app-outroscadastros-crud-template',
+  templateUrl: './outroscadastros-crud-template.component.html',
+  styleUrls: ['./outroscadastros-crud-template.component.scss']
 })
-export class OutrosComponent {
-
+export class OutroscadastrosCrudTemplateComponent {
   action: string = '';
   outroEdition!: Outros;
   outrosForm!: FormGroup;
   typeButton: string = '';
 
   constructor(
-    private dialogRef: MatDialogRef<CargoCrudTemplateComponent>,
+    private dialogRef: MatDialogRef<OutroscadastrosCrudTemplateComponent>,
     private userService: UserServiceService
   ) {}
 
@@ -42,6 +40,7 @@ export class OutrosComponent {
   initializeForm(): void {
     this.outrosForm = new FormGroup({
       descricao: new FormControl('', [Validators.required]),
+      categoria: new FormControl('', [Validators.required])
     });
   }
 
@@ -49,6 +48,7 @@ export class OutrosComponent {
     if (this.outrosForm.valid) {
       const outrosData: Outros = this.outrosForm.value;
       outrosData.status = true;
+   
 
       if (this.action === 'Edit') {
         outrosData.id = this.outroEdition.id;
@@ -70,7 +70,8 @@ export class OutrosComponent {
         );
              }
       } else {
-       
+        alert('antes de salvar')
+            console.log(outrosData)
         this.userService.CreateOutro(outrosData).subscribe(
           (response) => {
             this.showSuccessMessage('Cargo created successfully!');
